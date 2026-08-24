@@ -30,6 +30,9 @@ written to disk.
     sudo systemctl daemon-reload && sudo systemctl enable --now licenses-backend
     sudo nginx -t && sudo systemctl reload nginx
 
+## Releasing
+Bump `VERSION`, `python3 offline/build.py`, commit, then `git tag -a vX.Y.Z` + `gh release create vX.Y.Z www/offline/ESLC.html#EmpowerSmartLicenseCleaner_vX.Y.Z.html` — the release asset is the offline file.
+
 ## Versioning
 Bump `VERSION` (semver, shown in both footers), then `python3 offline/build.py` so the offline file carries it.
 
