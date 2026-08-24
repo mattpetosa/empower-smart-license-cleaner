@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Empower Smart License Cleaner (offline)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231f6feb'/%3E%3Cpath d='M12 18 L21 48 L32 26 L43 48 L52 18' fill='none' stroke='%23fff' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>/*__CSS__*/</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Empower Smart License Cleaner <span class="badge">offline</span></h1>
+    <p class="sub">Drop a <strong>Waters Licensing Wizard</strong> PDF printout or a <strong>Checksum_*.txt</strong> report. You get an Excel sheet with the licenses categorized, pack suffixes (<code>-001</code>) stripped, bundled user packs folded into the base key, and duplicates removed. Everything runs in this browser tab — nothing leaves your computer.</p>
+  </header>
+
+  <form id="drop" class="drop" tabindex="0">
+    <input id="file" type="file" name="pdf" accept="application/pdf,.pdf,text/plain,.txt" hidden>
+    <div class="drop-inner">
+      <div class="icon">📄</div>
+      <div><strong>Drop PDF or Checksum .txt here</strong> or <span class="link">browse</span></div>
+      <div class="hint">Processed locally in your browser</div>
+    </div>
+  </form>
+  <div class="fields">
+    <label>Company name <input type="text" id="company" placeholder="optional" autocomplete="organization"></label>
+    <label>Support ID <input type="text" id="support_id" placeholder="optional"></label>
+    <label>Order number <input type="text" id="order_number" placeholder="optional"></label>
+    <label>Sold to <input type="text" id="sold_to" placeholder="optional"></label>
+    <span class="hint">Used for the download names: <code>Company_SupportID_OrderNumber_SoldTo_Detailed_ESLC.xlsx</code> / <code>…_Simple_ESLC.csv</code>. Blank = the file's name. Filled-in values are also written into the files.</span>
+  </div>
+  <div class="opts">
+    <label class="opt"><input type="checkbox" id="remove_sqt"> Remove SQTs <span class="hint">(any license with "SQT" in its name)</span></label>
+    <label class="opt"><input type="checkbox" id="remove_zero"> Remove 0 qty <span class="hint">(licenses printed with quantity 0)</span></label>
+  </div>
+  <p id="error" class="error" hidden></p>
+
+  <section id="result" hidden>
+    <div class="bar">
+      <div>
+        <div class="install" id="install"></div>
+        <div class="meta" id="meta"></div>
+      </div>
+      <div class="actions">
+        <button class="btn primary" data-dl="xlsx">Download Excel</button>
+        <button class="btn" data-dl="csv" title="Serial_Numbers column only - for the Waters licensing portal">Download CSV</button>
+        <button id="reset" class="btn">New file</button>
+      </div>
+    </div>
+    <div class="tablewrap">
+      <table id="table">
+        <thead><tr><th>Category</th><th>License</th><th class="num">Qty</th><th>Serial No</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <details id="removedbox">
+      <summary><span id="removedcount"></span> line(s) removed during cleanup</summary>
+      <table id="removed"><thead><tr><th>Reason</th><th>Original line</th></tr></thead><tbody></tbody></table>
+    </details>
+  </section>
+  <footer class="credit">Created by <a href="https://github.com/mattpetosa" target="_blank" rel="noopener">Matt Petosa</a> · <a href="https://licenses.mhpwebserver.com" target="_blank" rel="noopener">online version</a> · Version __BUILD__</footer>
+</main>
+<script>/*__CORE__*/</script>
+<script type="module">
+const WORKER_SRC = /*__WORKER__*/;
+const pdfjs = await import(URL.createObjectURL(new Blob([/*__PDFJS__*/], { type: 'text/javascript' })));
+pdfjs.GlobalWorkerOptions.workerSrc = URL.createObjectURL(new Blob([WORKER_SRC], { type: 'text/javascript' }));
+
+const $ = id => document.getElementById(id);
+const drop = $('drop'), input = $('file'), errBox = $('error'), result = $('result');
+const fields = { company: $('company'), support_id: $('support_id'), order_number: $('order_number'), sold_to: $('sold_to') };
+const LABELS = { company: 'Company', support_id: 'Support ID', order_number: 'Order Number', sold_to: 'Sold To' };
+const opts = { remove_sqt: $('remove_sqt'), remove_zero: $('remove_zero') };
+let currentFile = null, currentText = null, current = null;
+const showError = m => { errBox.textContent = m; errBox.hidden = !m; };
+
+drop.addEventListener('click', () => input.click());
+drop.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } });
+input.addEventListener('change', () => input.files[0] && handle(input.files[0]));
+['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', e => { const f = e.dataTransfer.files[0]; if (f) handle(f); });
+document.addEventListener('paste', e => { const f = [...(e.clipboardData?.files || [])][0]; if (f) handle(f); });
+Object.values(opts).forEach(el => el.addEventListener('change', () => currentText && render()));
+$('reset').addEventListener('click', () => { currentFile = currentText = current = null; input.value = ''; result.hidden = true; drop.hidden = false; showError(''); });
+document.querySelectorAll('[data-dl]').forEach(b => b.addEventListener('click', () => download(b.dataset.dl)));
+
+async function extractText(file) {
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  if (bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46) {
+    const doc = await pdfjs.getDocument({ data: bytes }).promise;
+    const lines = [];
+    for (let p = 1; p <= doc.numPages; p++) lines.push(...ESLC.itemsToLines((await (await doc.getPage(p)).getTextContent()).items));
+    return lines.join('\n');
+  }
+  return new TextDecoder().decode(bytes);
+}
+
+async function handle(file) {
+  showError('');
+  drop.classList.add('busy');
+  try {
+    currentText = await extractText(file);
+    currentFile = file;
+    const probe = ESLC.parseText(currentText);
+    if (!probe.licenses.length && !probe.removed.length) throw new Error('No license lines found - is this a Licensing Wizard PDF or Checksum .txt?');
+    for (const k of ['company', 'support_id']) if (probe[k] && !fields[k].value.trim()) fields[k].value = probe[k];
+    render();
+  } catch (e) { showError(e.message || String(e)); }
+  finally { drop.classList.remove('busy'); }
+}
+
+function compute() {
+  const r = ESLC.parseText(currentText);
+  if (opts.remove_sqt.checked) ESLC.removeSqt(r);
+  if (opts.remove_zero.checked) ESLC.removeZeroQty(r);
+  return r;
+}
+const details = () => Object.entries(fields).filter(([, el]) => el.value.trim()).map(([k, el]) => [LABELS[k], el.value.trim()]);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+function render() {
+  current = compute();
+  const d = current;
+  $('install').textContent = d.installation || currentFile.name;
+  const qty = d.licenses.reduce((n, l) => n + (l.qty || 0), 0);
+  $('meta').textContent = `${d.licenses.length} licenses · ${qty} total seats/units` + (d.printed ? ` · printed ${d.printed}` : '');
+  const tb = document.querySelector('#table tbody'); tb.innerHTML = '';
+  let last = null;
+  for (const l of d.licenses) {
+    const tr = document.createElement('tr');
+    if (l.category !== last) { tr.className = 'first'; last = l.category; }
+    tr.innerHTML = `<td class="cat">${esc(l.category)}</td><td>${esc(l.name)}</td><td class="qty">${l.qty ?? '—'}</td><td class="serial">${esc(l.serial)}</td>`;
+    tb.appendChild(tr);
+  }
+  const removed = [...d.removed, ...d.unparsed.map(u => ({ reason: 'Unrecognized line', raw: u }))];
+  const rb = document.querySelector('#removed tbody'); rb.innerHTML = '';
+  for (const r of removed) { const tr = document.createElement('tr'); tr.innerHTML = `<td>${esc(r.reason)}</td><td>${esc(r.raw)}</td>`; rb.appendChild(tr); }
+  $('removedcount').textContent = removed.length;
+  $('removedbox').hidden = removed.length === 0;
+  drop.hidden = true; result.hidden = false;
+}
+
+function download(kind) {
+  if (!current) return;
+  const base = ESLC.baseName(Object.values(fields).map(el => el.value), currentFile.name);
+  let blob, name;
+  if (kind === 'csv') { blob = new Blob([ESLC.buildCsv(current, details())], { type: 'text/csv' }); name = `${base}_Simple_ESLC.csv`; }
+  else { blob = new Blob([ESLC.buildWorkbook(current, details())], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); name = `${base}_Detailed_ESLC.xlsx`; }
+  const url = URL.createObjectURL(blob);
+  const a = Object.assign(document.createElement('a'), { href: url, download: name });
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+}
+</script>
+</body>
+</html>

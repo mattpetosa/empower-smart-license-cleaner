@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Empower Smart License Cleaner</title>
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Empower Smart License Cleaner</h1>
+    <p class="sub">Drop a <strong>Waters Licensing Wizard</strong> PDF printout or a <strong>Checksum_*.txt</strong> report. You get an Excel sheet with the licenses categorized, pack suffixes (<code>-001</code>) stripped, bundled user packs folded into the base key, and duplicates removed. Nothing is stored on the server.</p>
+  </header>
+
+  <form id="drop" class="drop" tabindex="0">
+    <input id="file" type="file" name="pdf" accept="application/pdf,.pdf,text/plain,.txt" hidden>
+    <div class="drop-inner">
+      <div class="icon">📄</div>
+      <div><strong>Drop PDF or Checksum .txt here</strong> or <span class="link">browse</span></div>
+      <div class="hint">Up to 10 MB · processed in memory</div>
+    </div>
+  </form>
+  <div class="fields">
+    <label>Company name <input type="text" id="company" placeholder="optional" autocomplete="organization"></label>
+    <label>Support ID <input type="text" id="support_id" placeholder="optional"></label>
+    <label>Order number <input type="text" id="order_number" placeholder="optional"></label>
+    <label>Sold to <input type="text" id="sold_to" placeholder="optional"></label>
+    <span class="hint">Used for the download names: <code>Company_SupportID_OrderNumber_SoldTo_Detailed_ESLC.xlsx</code> / <code>…_Simple_ESLC.csv</code>. Blank = the PDF's file name. Filled-in values are also written into the files.</span>
+  </div>
+  <div class="opts">
+    <label class="opt"><input type="checkbox" id="remove_sqt"> Remove SQTs <span class="hint">(any license with "SQT" in its name)</span></label>
+    <label class="opt"><input type="checkbox" id="remove_zero"> Remove 0 qty <span class="hint">(licenses printed with quantity 0)</span></label>
+  </div>
+  <p id="error" class="error" hidden></p>
+
+  <section id="result" hidden>
+    <div class="bar">
+      <div>
+        <div class="install" id="install"></div>
+        <div class="meta" id="meta"></div>
+      </div>
+      <div class="actions">
+        <button class="btn primary" data-dl="/api/convert">Download Excel</button>
+        <button class="btn" data-dl="/api/csv?kind=simple" title="Serial_Numbers column only - for the Waters licensing portal">Download CSV</button>
+        <button id="reset" class="btn">New file</button>
+      </div>
+    </div>
+
+    <div class="tablewrap">
+      <table id="table">
+        <thead><tr><th>Category</th><th>License</th><th class="num">Qty</th><th>Serial No</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <details id="removedbox">
+      <summary><span id="removedcount"></span> line(s) removed during cleanup</summary>
+      <table id="removed"><thead><tr><th>Reason</th><th>Original line</th></tr></thead><tbody></tbody></table>
+    </details>
+  </section>
+  <footer class="credit">Created by <a href="https://github.com/mattpetosa" target="_blank" rel="noopener">Matt Petosa</a> · <a id="offline-link" href="/offline/ESLC.html" download="EmpowerSmartLicenseCleaner.html" title="Single HTML file - same tool, runs entirely in your browser with no internet">Download offline version</a> · Version <span id="version"></span></footer>
+</main>
+<script src="/static/app.js"></script>
+</body>
+</html>

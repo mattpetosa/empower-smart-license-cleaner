@@ -1,0 +1,103 @@
+from pathlib import Path
+
+from openpyxl import load_workbook
+
+from excel import build_workbook
+from licenses import parse_pdf, parse_text
+
+SAMPLE = Path(__file__).resolve().parent.parent / "fixtures" / "sample-empower370.pdf"
+
+
+def test_sample_pdf_rules():
+    res = parse_pdf(SAMPLE.read_bytes())
+    assert res.installation == "EmpowerDemo"
+    assert res.printed.startswith("08/20/2026")
+    serials = [l.serial for l in res.licenses]
+    # suffix stripped
+    assert "M9FJA7135U" in serials and not any(s.endswith("-001") for s in serials)
+    # named-user pack sharing the base serial is folded into the base row
+    base = [l for l in res.licenses if l.category == "Base License"]
+    assert len(base) == 1 and base[0].serial == "R1ZCR5103X" and base[0].qty == 5
+    assert serials.count("R1ZCR5103X") == 1
+    assert any("Included with base" in r.reason for r in res.removed)
+    # nothing duplicated
+    keys = [(l.name, l.serial) for l in res.licenses]
+    assert len(keys) == len(set(keys))
+    assert len(res.licenses) == 19 and not res.unparsed
+    cats = {l.category for l in res.licenses}
+    assert "Instrument Control (3rd Party)" in cats and "Options" in cats
+
+
+def test_duplicates_after_suffix_strip():
+    text = """Waters Licensing Wizard : X
+   [Empower 3 System Control License Pack] System licenses: 2 Serial No: AAA-001
+   [Empower 3 System Control License Pack] System licenses: 2 Serial No: AAA-002
+   [Empower 3 Agilent LC] Instrument control licenses: 1 Serial No: BBB
+   [Empower 3 Agilent LC] Instrument control licenses: 1 Serial No: BBB
+   [Empower 3 SystemsQT License] Serial No: CCC-003
+"""
+    res = parse_text(text)
+    assert [l.serial for l in res.licenses] == ["AAA", "BBB", "CCC"]
+    assert [r.reason for r in res.removed] == ["Duplicate serial"] * 2
+
+
+def test_workbook():
+    res = parse_pdf(SAMPLE.read_bytes())
+    wb = load_workbook(filename=__import__("io").BytesIO(build_workbook(res)))
+    assert wb.sheetnames == ["Licenses", "Summary", "Removed"]
+    ws = wb["Licenses"]
+    assert ws.max_row == 1 + len(res.licenses)
+    assert ws["A1"].value == "Category" and ws["E2"].value == "R1ZCR5103X"
+
+
+def test_csv_exports():
+    from excel import build_csv
+    res = parse_pdf(SAMPLE.read_bytes())
+    simple = build_csv(res, simple=True).split("\r\n")
+    assert simple[0] == "Serial_Numbers" and simple[1] == "R1ZCR5103X" and simple[-1] == ""
+    assert len(simple) == 1 + len(res.licenses) + 1
+    detailed = build_csv(res, simple=False).split("\r\n")
+    assert detailed[0].startswith("Category,License,Quantity") and len(detailed) == len(simple)
+
+
+def test_remove_sqt():
+    from licenses import remove_sqt
+    res = remove_sqt(parse_pdf(SAMPLE.read_bytes()))
+    assert not any("sqt" in l.name.lower() for l in res.licenses)
+    assert len(res.licenses) == 13 and sum("SQT removed" in r.reason for r in res.removed) == 6
+    assert any("System Suitability" in l.name for l in res.licenses)
+
+
+def test_default_qty_and_remove_zero():
+    from licenses import remove_zero_qty
+    text = """Waters Licensing Wizard : X
+   [Empower 3 System Suitability] Serial No: A1
+   [Empower 3 GPC/SEC Option] Serial No: A2
+   [Empower 3 Dissolution] Serial No: A3
+   [Empower 3 SystemsQT License] Serial No: A4
+   [Empower 3 System Control License Pack] System licenses: 0 Serial No: A5
+   [Empower 3 System Control License Pack] System licenses: 2 Serial No: A6
+"""
+    res = parse_text(text)
+    by = {l.serial: l.qty for l in res.licenses}
+    assert by == {"A1": 1, "A2": 1, "A3": 1, "A4": None, "A5": 0, "A6": 2}
+    remove_zero_qty(res)
+    assert sorted(l.serial for l in res.licenses) == ["A1", "A2", "A3", "A4", "A6"]
+    assert res.removed[-1].reason.startswith("Zero quantity")
+
+
+def test_checksum_txt():
+    from licenses import parse_upload
+    res = parse_upload((SAMPLE.parent / "sample-checksum.txt").read_bytes())
+    assert res.company == "Example Pharma Inc" and res.support_id == "EM3SA00000"
+    assert res.installation == "EMPOWERSVR"
+    base = [l for l in res.licenses if l.category == "Base License"]
+    assert len(base) == 1 and base[0].serial == "R2PNC4607S" and base[0].qty == 5
+    serials = [l.serial for l in res.licenses]
+    assert len(serials) == len(set(serials)) and not any("-00" in s for s in serials)
+    assert serials.count("Q2VZ3S848C") == 1  # Shimadzu Control + License(s) same key -> one row
+    cats = {l.category for l in res.licenses}
+    assert "Instrument Control (3rd Party)" in cats and "System Control" in cats and "User Licenses" in cats
+    by = {l.serial: l for l in res.licenses}
+    assert by["N9YQB3628E"].qty == 1 and by["M4QHG2190T"].qty == 1  # System Suitability, Dissolution
+    assert "sqt" in by["N0TSV0026V"].name.lower()

@@ -1,0 +1,1655 @@
+*****************************************************************
+
+Installation Information.
+
+Current Date and Time - Thursday, April 29, 2021 19:01:02
+Computer Name - EMPOWERSVR
+Installation Type - Enterprise Client Installed on a Server
+S/W Version - Empower 3 Software Build 3471
+Registered User - Example Pharma Inc
+Company Name - Example Pharma Inc
+Support Plan ID - EM3SA00000
+Operating System Name - Windows Server 2016 Standard
+Operating System Version - 6.3
+Operating System Upgrades - None
+
+
+*****************************************************************
+
+The following product updates have been applied to this installation:
+
+Service Release 1
+Feature Release 1
+Feature Release 2
+FR2 Hotfix 1
+Service Release 2
+SR2 Hotfix 1
+SR2 Hotfix 2
+SR2 Hotfix 3
+SR2 Hotfix 4
+Feature Release 3
+Feature Release 3 Hotfix 1
+Feature Release 4
+Service Release 3
+SR3 Hotfix 1
+Feature Release 5
+Service Release 4
+Service Release 5
+Service Release 5 Hotfix 1
+
+*****************************************************************
+
+Database Installation Verification Utility.
+
+Database Alias - EMPOWER3
+# of Installed Named User License(s)-35
+# of Installed System License(s)-28
+Database Version - 7.52.00.00
+Oracle Version - Oracle Database 18c Enterprise Edition Release 18.0.0.0.0
+
+Installed Oracle - Empower
+
+Installed Empower 3 License:  (Please fill in Serial Number if absent)
+Option Properly Installed - Enterprise Base Package          Serial Number - R2PNC4607S
+
+
+Option Properly Installed - 5 Named User License(s)          Serial Number - R2PNC4607S
+
+
+Option Properly Installed - 5 Named User License(s)          Serial Number - D1NYK3411K-001
+
+
+Option Properly Installed - 5 Named User License(s)          Serial Number - C4CFL6668J-001
+
+
+Option Properly Installed - 5 Named User License(s)          Serial Number - A1KCG2244Z-001
+
+
+Option Properly Installed - 5 Named User License(s)          Serial Number - J0XRC8205V-001
+
+
+Option Properly Installed - 5 Named User License(s)          Serial Number - U6NTS8462G-001
+
+
+Option Properly Installed - 5 Named User License(s)          Serial Number - R7HSR4205V-001
+
+
+Option Properly Installed - 1 System License(s)          Serial Number - E2NCU2624H
+
+
+Option Properly Installed - 1 System License(s)          Serial Number - L8YWE9493N
+
+
+Option Properly Installed - 1 System License(s)          Serial Number - F5AEV0220D
+
+
+Option Properly Installed - 1 System License(s)          Serial Number - U4AJL0179W
+
+
+Option Properly Installed - 1 System License(s)          Serial Number - K1NZE0043S
+
+
+Option Properly Installed - 1 System License(s)          Serial Number - Q0SEK4133M
+
+
+Option Properly Installed - 1 System License(s)          Serial Number - T4KRC3912F
+
+
+Option Properly Installed - 1 System License(s)          Serial Number - H9RCS9100P
+
+
+Option Properly Installed - 1 System License(s)          Serial Number - X4MKC6444F
+
+
+Option Properly Installed - 1 System License(s)          Serial Number - G5GPU1869T
+
+
+Option Properly Installed - 1 System License(s)          Serial Number - Y5PXP8983B
+
+
+Option Properly Installed - 1 System License(s)          Serial Number - H8RNE2832G
+
+
+Option Properly Installed - 4 System License(s)          Serial Number - C0CSB4546Z
+
+
+Option Properly Installed - Shimadzu LC Control          Serial Number - Q2VZ3S848C
+
+
+Option Properly Installed - Shimadzu LC License(s)          Serial Number - Q2VZ3S848C
+
+
+Option Properly Installed - Shimadzu LC License(s)          Serial Number - S6ZW5X760V
+
+
+Option Properly Installed - Shimadzu LC License(s)          Serial Number - H5WY4W546C
+
+
+Option Properly Installed - Shimadzu LC License(s)          Serial Number - E4HS8W362F
+
+
+Option Properly Installed - Shimadzu LC License(s)          Serial Number - H2FH1T475R
+
+
+Option Properly Installed - Shimadzu LC License(s)          Serial Number - F0TK4N997F
+
+
+Option Properly Installed - System Suitability          Serial Number - N9YQB3628E
+
+
+Option Properly Installed - Dissolution          Serial Number - M4QHG2190T
+
+
+Option Properly Installed - 2 System License(s)          Serial Number - B00G02547C
+
+
+Option Properly Installed - 2 System License(s)          Serial Number - F67G09577Q
+
+
+Option Properly Installed - 2 System License(s)          Serial Number - C10Y21297W
+
+
+Option Properly Installed - 2 System License(s)          Serial Number - L47W91408T
+
+
+Option Properly Installed - 2 System License(s)          Serial Number - M71S05060S
+
+
+Option Properly Installed - 0 System License(s)          Serial Number - V99X36293H
+
+
+Option Properly Installed - 0 System License(s)          Serial Number - B81F15207N
+
+
+Option Properly Installed - 0 System License(s)          Serial Number - G63F28004B
+
+
+Option Properly Installed - 0 System License(s)          Serial Number - A32L60287D
+
+
+Option Properly Installed - 0 System License(s)          Serial Number - P47G68229A
+
+
+Option Properly Installed - 0 System License(s)          Serial Number - Q77E86380H
+
+
+Option Properly Installed - 0 System License(s)          Serial Number - F04C91475J
+
+
+Option Properly Installed - 0 System License(s)          Serial Number - W14C84124G
+
+
+Option Properly Installed - 0 System License(s)          Serial Number - N56B37277B
+
+
+Option Properly Installed - 0 System License(s)          Serial Number - R10C13866A
+
+
+Option Properly Installed - Empower SQT for Software          Serial Number - N0TSV0026V
+
+
+Option Properly Installed - 2 System License(s)          Serial Number - Q50N17709Y
+
+
+Database Verification Complete.
+
+*****************************************************************
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\bin\ directory:
+114 files to check:
+
+  1: ACDWatX.ocx              OK    - Size: 1332736, CRC: 56444
+  2: AnalyticsObjects.dll     OK    - Size:  802304, CRC: 54851
+  3: AnalyticsSetup.exe       OK    - Size:   13824, CRC: 30219
+  4: BreezeLicensingPlugin.dll    OK    - Size:   30720, CRC:  3562
+  5: COMMethodCompare.xsl     OK    - Size:   14237, CRC: 32644
+  6: CmgrLib.dll              OK    - Size:   66560, CRC: 43833
+  7: Compare.exe              OK    - Size:  270848, CRC: 47649
+  8: DL91ACE.dll              OK    - Size: 1344872, CRC: 24990
+  9: DL91AGM.dll              OK    - Size: 9643368, CRC: 45907
+ 10: DL91ARE.dll              OK    - Size:  426856, CRC: 26771
+ 11: DL91AXE8SharedExpat.dll    OK    - Size:  215400, CRC: 13943
+ 12: DL91AdobeXMP.dll         OK    - Size:  661352, CRC:  4411
+ 13: DL91BIB.dll              OK    - Size:  282472, CRC: 64006
+ 14: DL91BIBUtils.dll         OK    - Size:  363880, CRC: 41472
+ 15: DL91CoolType.dll         OK    - Size: 3548520, CRC: 40122
+ 16: DL91JP2KLib.dll          OK    - Size:  751976, CRC: 40750
+ 17: DL91PDFL.dll             OK    - Size: 9642344, CRC: 18836
+ 18: DL91PDFPort.dll          OK    - Size: 1660776, CRC:  1229
+ 19: DL91pdfsettings.dll      OK    - Size:  285544, CRC: 26410
+ 20: Empower.exe              OK    - Size:  242176, CRC: 26243
+ 21: EmpowerLicensingPlugin.dll    OK    - Size:   65536, CRC:  9592
+ 22: EthernetIeee.dll         OK    - Size:  114688, CRC: 15208
+ 23: IPalisade.dll            OK    - Size:   50688, CRC: 15002
+ 24: ImmdSrvr.exe             OK    - Size:   49664, CRC: 30399
+ 25: InEditor.exe             OK    - Size:  188928, CRC:  1831
+ 26: InstrumentIfcps.dll      OK    - Size:   32768, CRC:  4325
+ 27: InstrumentServer.exe     OK    - Size: 1303040, CRC: 13356
+ 28: InstrumentServerps.dll    OK    - Size:    8704, CRC: 16034
+ 29: Interop.OPTINTLib.dll    OK    - Size:    7168, CRC:  3489
+ 30: Licensing App.config     OK    - Size:     177, CRC:  4358
+ 31: ManTune.exe              OK    - Size:  190976, CRC: 39637
+ 32: MilTk.dll                OK    - Size: 2314240, CRC: 23949
+ 33: MilTk.tlb                OK    - Size:  265616, CRC: 17554
+ 34: MillServices.dll         OK    - Size:   94720, CRC: 36980
+ 35: MillServices.tlb         OK    - Size:    6552, CRC: 30818
+ 36: MtkCtrl.dll              OK    - Size:  192512, CRC: 24686
+ 37: NG70ToolkitLoginKey.exe    OK    - Size:  102462, CRC: 21512
+ 38: NG70secf.dll             OK    - Size:  161744, CRC: 12250
+ 39: NG71SECF.dll             OK    - Size:  196856, CRC: 48117
+ 40: NG71ToolkitLoginKey.exe    OK    - Size:   98304, CRC: 12029
+ 41: NG71tkfu.exe             OK    - Size:   98304, CRC: 52740
+ 42: OQ.exe                   OK    - Size:   79360, CRC:  1605
+ 43: Open Access.exe          OK    - Size:  265728, CRC:   201
+ 44: OptInt.dll               OK    - Size:  114176, CRC: 47871
+ 45: Pdacalib.exe             OK    - Size:  156160, CRC: 19860
+ 46: Pdadiag.exe              OK    - Size:  116224, CRC: 43086
+ 47: ProcSrvr.exe             OK    - Size:  174592, CRC: 27750
+ 48: QuickSet.exe             OK    - Size:  510976, CRC: 34963
+ 49: QuickSet.tlb             OK    - Size:    2380, CRC: 12284
+ 50: QuickStart.exe           OK    - Size: 3122176, CRC: 34025
+ 51: Report Publisher.exe     OK    - Size:  322048, CRC: 24246
+ 52: Review.exe               OK    - Size: 1351168, CRC: 30535
+ 53: RptViewer.exe            OK    - Size:   67072, CRC: 48474
+ 54: ScriptHelper.dll         OK    - Size:   32768, CRC: 14880
+ 55: SetEmailDatabase.exe     OK    - Size:   53760, CRC: 49276
+ 56: ShowMeHelpSynchronizer.dll    OK    - Size:    6144, CRC: 17538
+ 57: StoreSrv.dll             OK    - Size:   89600, CRC: 62051
+ 58: StoreSrv.exe             OK    - Size:   87040, CRC: 61264
+ 59: StoreSrvProxy.dll        OK    - Size:   16384, CRC:  2227
+ 60: SysMon.exe               OK    - Size:  129536, CRC: 22019
+ 61: Update2487.exe           OK    - Size:   64512, CRC: 52408
+ 62: UpdateDBUtils.dll        OK    - Size:  112640, CRC:  2096
+ 63: UploadSrv.dll            OK    - Size:  110080, CRC: 15996
+ 64: ValidationManager.exe    OK    - Size:  400896, CRC: 58542
+ 65: ValidationReview.exe     OK    - Size:  692224, CRC:  4895
+ 66: VerifyOpt.exe            OK    - Size:   64000, CRC: 56500
+ 67: Waters.Empower.AnalyticsViewer.exe    OK    - Size:  327168, CRC: 65290
+ 68: Waters.Licensing.Wizard.exe    OK    - Size:  137216, CRC: 24624
+ 69: Waters.UI.WatStyle.dll    OK    - Size:   96256, CRC: 13203
+ 70: Waters.UI.WatTreeView.dll    OK    - Size:   39936, CRC: 51786
+ 71: Waters.UI.WatValidator.dll    OK    - Size:   24576, CRC: 12036
+ 72: WatersEmailService.exe    OK    - Size:   81408, CRC: 53713
+ 73: WatersNetConfig.exe      OK    - Size: 3322368, CRC: 54592
+ 74: WatersPrintCaptureDriver.dll    OK    - Size:   72192, CRC:  8710
+ 75: WatersPrintCaptureDriverInstall.exe    OK    - Size:  517120, CRC: 52972
+ 76: WatersPrintCaptureDriverPDFDoc.dll    OK    - Size:  301056, CRC: 11208
+ 77: WatersPrintCaptureDriverUI.dll    OK    - Size:   23040, CRC: 55856
+ 78: WatersService.exe        OK    - Size:  446976, CRC:  7434
+ 79: WatersServiceps.dll      OK    - Size:    6144, CRC: 14394
+ 80: ZedGraph.dll             OK    - Size:  307200, CRC: 45784
+ 81: andims.dll               OK    - Size:  331264, CRC: 33751
+ 82: autoarchive.exe          OK    - Size:   73216, CRC: 10933
+ 83: checksum.exe             OK    - Size:  204851, CRC: 52385
+ 84: cmgr.exe                 OK    - Size:  809472, CRC:  6044
+ 85: dconvert.exe             OK    - Size:  266240, CRC: 16050
+ 86: icucnv36.dll             OK    - Size:  824088, CRC: 18080
+ 87: icudt36.dll              OK    - Size:   89368, CRC: 21351
+ 88: impexp.dll               OK    - Size:  478720, CRC: 59143
+ 89: memlib32.dll             OK    - Size:  420864, CRC:  1281
+ 90: messagecenter.exe        OK    - Size:  140288, CRC: 40139
+ 91: mil0.dll                 OK    - Size: 1585664, CRC: 26058
+ 92: mil1.dll                 OK    - Size: 9422848, CRC: 28804
+ 93: mil2.dll                 OK    - Size: 4328448, CRC:  3837
+ 94: mil3.dll                 OK    - Size: 3675648, CRC: 13953
+ 95: milp.dll                 OK    - Size: 1451520, CRC: 28665
+ 96: milres.dll               OK    - Size:   44032, CRC: 46295
+ 97: msdiag.exe               OK    - Size:   75264, CRC: 31624
+ 98: mseditor.exe             OK    - Size:   63488, CRC: 47285
+ 99: mtkctrl.tlb              OK    - Size:   13304, CRC: 10059
+100: netcdf.dll               OK    - Size:  436224, CRC: 51121
+101: pallib32.dll             OK    - Size:  556032, CRC: 28094
+102: pbmlib32.dll             OK    - Size:  568832, CRC:  2451
+103: pltlib32.dll             OK    - Size:  581632, CRC:  4961
+104: pmeditor.exe             OK    - Size:   79872, CRC: 61605
+105: procmon.exe              OK    - Size:   75776, CRC: 58095
+106: project.exe              OK    - Size:  739328, CRC: 63692
+107: pvsdk.dll                OK    - Size: 2719232, CRC: 38083
+108: reflib32.dll             OK    - Size:  435200, CRC:  3428
+109: restoredb.exe            OK    - Size:   76800, CRC: 44260
+110: setarchdatabase.exe      OK    - Size:   51200, CRC: 36869
+111: sseditor.exe             OK    - Size:   51200, CRC:  5594
+112: ulblib32.dll             OK    - Size:  585216, CRC: 23562
+113: wlylib32.dll             OK    - Size:  344576, CRC: 38408
+114: xmlinst.exe              OK    - Size:   29696, CRC: 41483
+
+ 114 files, 82618115 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\bin\en\ directory:
+42 files to check:
+
+  1: ACD_WatersMill.dll       OK    - Size: 1068544, CRC: 59495
+  2: AutoArchiveRes.dll       OK    - Size:   40960, CRC: 27278
+  3: CmgrRes.dll              OK    - Size:  330240, CRC: 32748
+  4: CompareRes.dll           OK    - Size:   55296, CRC: 31514
+  5: DconvertRes.dll          OK    - Size:   53248, CRC: 56714
+  6: EmpowerRes.dll           OK    - Size: 1623040, CRC: 61913
+  7: ImmdsrvrRes.dll          OK    - Size:   36864, CRC: 59058
+  8: ImpexpRes.dll            OK    - Size:   45568, CRC: 63906
+  9: InEditorRes.dll          OK    - Size:  152576, CRC: 30831
+ 10: InstrumentServerRes.dll    OK    - Size:   58880, CRC: 26659
+ 11: MTkCtrlRes.dll           OK    - Size:   36352, CRC:  8448
+ 12: MantuneRes.dll           OK    - Size:   61952, CRC:  9232
+ 13: MessageCenterRes.dll     OK    - Size:   51200, CRC: 28737
+ 14: Mil0Res.dll              OK    - Size:   43008, CRC:  2715
+ 15: MilTkRes.dll             OK    - Size:   91648, CRC:  2021
+ 16: MilresRes.dll            OK    - Size: 9417216, CRC: 20938
+ 17: OQRes.dll                OK    - Size:  523264, CRC: 15141
+ 18: Open Access Res.dll      OK    - Size:  242688, CRC: 39752
+ 19: ProjectRes.dll           OK    - Size:  142336, CRC: 58194
+ 20: QuickSetRes.dll          OK    - Size: 2839552, CRC: 22305
+ 21: QuickStartRes.dll        OK    - Size: 15331840, CRC: 62900
+ 22: RPTViewerRes.dll         OK    - Size:   44032, CRC: 39820
+ 23: Report Publisher Res.dll    OK    - Size:  729088, CRC: 47660
+ 24: ReviewRes.dll            OK    - Size: 1093632, CRC: 38421
+ 25: SSEditorRes.dll          OK    - Size:   43008, CRC: 10125
+ 26: SetArchDatabaseRes.dll    OK    - Size:   38912, CRC:  8585
+ 27: SetEmailDatabaseRes.dll    OK    - Size:   39936, CRC: 16344
+ 28: SysMonRes.dll            OK    - Size:   48128, CRC: 45809
+ 29: ValidationManagerRes.dll    OK    - Size:  108544, CRC: 33688
+ 30: ValidationReviewRes.dll    OK    - Size:   60928, CRC: 41533
+ 31: VerifyOptRes.dll         OK    - Size:   44032, CRC: 56016
+ 32: WatersEmailServiceRes.dll    OK    - Size:   34816, CRC: 17692
+ 33: msdiagRes.dll            OK    - Size:   49664, CRC: 20251
+ 34: mseditorRes.dll          OK    - Size:   44032, CRC: 64731
+ 35: optintRes.dll            OK    - Size:   38912, CRC: 34090
+ 36: pdacalibRes.dll          OK    - Size:   48640, CRC: 46549
+ 37: pdadiagRes.dll           OK    - Size:   49664, CRC: 53366
+ 38: pmeditorRes.dll          OK    - Size:   44032, CRC: 62846
+ 39: procmonRes.dll           OK    - Size:   45568, CRC:  7378
+ 40: procsrvrRes.dll          OK    - Size:   43520, CRC: 12079
+ 41: restoredbRes.dll         OK    - Size:  331776, CRC: 48295
+ 42: update2487Res.dll        OK    - Size:   44032, CRC: 12081
+
+  42 files, 35271168 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\bin\ja\ directory:
+46 files to check:
+
+  1: ACD_WatersMill.dll       OK    - Size: 1063936, CRC:  4092
+  2: AutoArchiveRes.dll       OK    - Size:   38912, CRC: 40804
+  3: BreezeLicensingPlugin.resources.dll    OK    - Size:    4608, CRC: 36848
+  4: CmgrRes.dll              OK    - Size:  280064, CRC: 45455
+  5: CompareRes.dll           OK    - Size:   51200, CRC:  7811
+  6: DconvertRes.dll          OK    - Size:   48128, CRC: 27642
+  7: EmpowerLicensingPlugin.resources.dll    OK    - Size:   32768, CRC:  3182
+  8: EmpowerRes.dll           OK    - Size: 1582080, CRC: 17627
+  9: ImmdsrvrRes.dll          OK    - Size:   36352, CRC: 41502
+ 10: ImpexpRes.dll            OK    - Size:   43008, CRC: 10502
+ 11: InEditorRes.dll          OK    - Size:  150528, CRC: 45910
+ 12: InstrumentServerRes.dll    OK    - Size:   47616, CRC: 13006
+ 13: MTkCtrlRes.dll           OK    - Size:   35840, CRC: 63012
+ 14: MantuneRes.dll           OK    - Size:   57856, CRC: 59482
+ 15: MessageCenterRes.dll     OK    - Size:   48640, CRC: 37571
+ 16: Mil0Res.dll              OK    - Size:   39424, CRC: 47276
+ 17: MilTkRes.dll             OK    - Size:   72192, CRC: 15797
+ 18: MilresRes.dll            OK    - Size: 9058816, CRC: 40332
+ 19: OQRes.dll                OK    - Size:  519680, CRC: 58127
+ 20: Open Access Res.dll      OK    - Size:  222208, CRC:   131
+ 21: ProjectRes.dll           OK    - Size:  117248, CRC: 35138
+ 22: QuickSetRes.dll          OK    - Size: 2824192, CRC: 14516
+ 23: QuickStartRes.dll        OK    - Size: 15211008, CRC: 21447
+ 24: RPTViewerRes.dll         OK    - Size:   41984, CRC: 35423
+ 25: Report Publisher Res.dll    OK    - Size:  710656, CRC: 55444
+ 26: ReviewRes.dll            OK    - Size: 1040384, CRC: 49379
+ 27: SSEditorRes.dll          OK    - Size:   40960, CRC:  1748
+ 28: SetArchDatabaseRes.dll    OK    - Size:   37888, CRC: 60996
+ 29: SetEmailDatabaseRes.dll    OK    - Size:   38400, CRC: 64679
+ 30: SysMonRes.dll            OK    - Size:   45568, CRC: 46284
+ 31: Update2487Res.dll        OK    - Size:   41472, CRC: 45775
+ 32: ValidationManagerRes.dll    OK    - Size:   92672, CRC: 61463
+ 33: ValidationReviewRes.dll    OK    - Size:   56832, CRC:  3114
+ 34: VerifyOptRes.dll         OK    - Size:   41472, CRC: 64602
+ 35: Waters.Empower.AnalyticsViewer.resources.dll    OK    - Size:   58368, CRC: 50021
+ 36: Waters.Licensing.Wizard.resources.dll    OK    - Size:   69632, CRC: 56457
+ 37: WatersEmailServiceRes.dll    OK    - Size:   34816, CRC: 10090
+ 38: msdiagRes.dll            OK    - Size:   46592, CRC: 14583
+ 39: mseditorRes.dll          OK    - Size:   42496, CRC: 25693
+ 40: optintRes.dll            OK    - Size:   37376, CRC: 11258
+ 41: pdacalibRes.dll          OK    - Size:   45056, CRC:  5739
+ 42: pdadiagRes.dll           OK    - Size:   46080, CRC: 17474
+ 43: pmeditorRes.dll          OK    - Size:   42496, CRC: 42607
+ 44: procmonRes.dll           OK    - Size:   43520, CRC: 48537
+ 45: procsrvrRes.dll          OK    - Size:   40448, CRC: 47459
+ 46: restoredbRes.dll         OK    - Size:  327168, CRC:   349
+
+  46 files, 34608640 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\bin\ko\ directory:
+46 files to check:
+
+  1: ACD_WatersMill.dll       OK    - Size: 1064448, CRC: 32238
+  2: AutoArchiveRes.dll       OK    - Size:   39424, CRC: 51250
+  3: BreezeLicensingPlugin.resources.dll    OK    - Size:   12288, CRC: 63818
+  4: CmgrRes.dll              OK    - Size:  279552, CRC:  7599
+  5: CompareRes.dll           OK    - Size:   50688, CRC: 53429
+  6: DconvertRes.dll          OK    - Size:   49152, CRC: 54769
+  7: EmpowerLicensingPlugin.resources.dll    OK    - Size:   19456, CRC: 31426
+  8: EmpowerRes.dll           OK    - Size: 1606656, CRC: 34371
+  9: ImmdsrvrRes.dll          OK    - Size:   36352, CRC: 13212
+ 10: ImpexpRes.dll            OK    - Size:   43008, CRC: 30029
+ 11: InEditorRes.dll          OK    - Size:  150528, CRC: 11990
+ 12: InstrumentServerRes.dll    OK    - Size:   50176, CRC: 28508
+ 13: MTkCtrlRes.dll           OK    - Size:   35840, CRC: 21529
+ 14: MantuneRes.dll           OK    - Size:   57344, CRC:  9409
+ 15: MessageCenterRes.dll     OK    - Size:   48128, CRC: 22638
+ 16: Mil0Res.dll              OK    - Size:   39936, CRC: 49042
+ 17: MilTkRes.dll             OK    - Size:   73216, CRC: 59180
+ 18: MilresRes.dll            OK    - Size: 9070080, CRC: 26901
+ 19: OQRes.dll                OK    - Size:  520192, CRC: 45933
+ 20: Open Access Res.dll      OK    - Size:  222208, CRC:   945
+ 21: ProjectRes.dll           OK    - Size:  118272, CRC: 65292
+ 22: QuickSetRes.dll          OK    - Size: 2824192, CRC: 57165
+ 23: QuickStartRes.dll        OK    - Size: 15221248, CRC: 36149
+ 24: RPTViewerRes.dll         OK    - Size:   41984, CRC:  9630
+ 25: Report Publisher Res.dll    OK    - Size:  712704, CRC: 19338
+ 26: ReviewRes.dll            OK    - Size: 1044992, CRC: 29543
+ 27: SSEditorRes.dll          OK    - Size:   40960, CRC: 48873
+ 28: SetArchDatabaseRes.dll    OK    - Size:   37888, CRC: 15032
+ 29: SetEmailDatabaseRes.dll    OK    - Size:   38400, CRC: 24223
+ 30: SysMonRes.dll            OK    - Size:   45568, CRC: 41065
+ 31: Update2487Res.dll        OK    - Size:   41472, CRC:  9985
+ 32: ValidationManagerRes.dll    OK    - Size:   94720, CRC: 34966
+ 33: ValidationReviewRes.dll    OK    - Size:   57344, CRC: 19208
+ 34: VerifyOptRes.dll         OK    - Size:   40960, CRC: 35552
+ 35: Waters.Empower.AnalyticsViewer.resources.dll    OK    - Size:   56320, CRC: 44279
+ 36: Waters.Licensing.Wizard.resources.dll    OK    - Size:   69632, CRC: 31752
+ 37: WatersEmailServiceRes.dll    OK    - Size:   34816, CRC: 48964
+ 38: msdiagRes.dll            OK    - Size:   46592, CRC:  1088
+ 39: mseditorRes.dll          OK    - Size:   41984, CRC: 30658
+ 40: optintRes.dll            OK    - Size:   37376, CRC: 42340
+ 41: pdacalibRes.dll          OK    - Size:   45056, CRC: 17885
+ 42: pdadiagRes.dll           OK    - Size:   46592, CRC: 25688
+ 43: pmeditorRes.dll          OK    - Size:   42496, CRC: 49377
+ 44: procmonRes.dll           OK    - Size:   43520, CRC: 39402
+ 45: procsrvrRes.dll          OK    - Size:   41984, CRC: 33499
+ 46: restoredbRes.dll         OK    - Size:  327168, CRC: 21799
+
+  46 files, 34662912 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\bin\zh-chs\ directory:
+46 files to check:
+
+  1: ACD_WatersMill.dll       OK    - Size: 1061376, CRC: 24786
+  2: AutoArchiveRes.dll       OK    - Size:   37888, CRC: 35408
+  3: BreezeLicensingPlugin.resources.dll    OK    - Size:   10240, CRC: 11886
+  4: CmgrRes.dll              OK    - Size:  253440, CRC:   977
+  5: CompareRes.dll           OK    - Size:   48640, CRC: 64914
+  6: DconvertRes.dll          OK    - Size:   44544, CRC: 27792
+  7: EmpowerLicensingPlugin.resources.dll    OK    - Size:   15872, CRC: 40044
+  8: EmpowerRes.dll           OK    - Size: 1519616, CRC: 22085
+  9: ImmdsrvrRes.dll          OK    - Size:   36352, CRC: 14011
+ 10: ImpexpRes.dll            OK    - Size:   40960, CRC:  6568
+ 11: InEditorRes.dll          OK    - Size:  149504, CRC: 62160
+ 12: InstrumentServerRes.dll    OK    - Size:   44544, CRC: 56181
+ 13: MTkCtrlRes.dll           OK    - Size:   35328, CRC: 29775
+ 14: MantuneRes.dll           OK    - Size:   55296, CRC: 15578
+ 15: MessageCenterRes.dll     OK    - Size:   46592, CRC: 32677
+ 16: Mil0Res.dll              OK    - Size:   37376, CRC:  4928
+ 17: MilTkRes.dll             OK    - Size:   61440, CRC: 29055
+ 18: MilresRes.dll            OK    - Size: 8903680, CRC: 27970
+ 19: OQRes.dll                OK    - Size:  518144, CRC: 33811
+ 20: Open Access Res.dll      OK    - Size:  212992, CRC: 13250
+ 21: ProjectRes.dll           OK    - Size:  103424, CRC: 11253
+ 22: QuickSetRes.dll          OK    - Size: 2816000, CRC: 65081
+ 23: QuickStartRes.dll        OK    - Size: 15155200, CRC: 35726
+ 24: RPTViewerRes.dll         OK    - Size:   40960, CRC: 41229
+ 25: Report Publisher Res.dll    OK    - Size:  702464, CRC: 53020
+ 26: ReviewRes.dll            OK    - Size: 1014784, CRC: 14210
+ 27: SSEditorRes.dll          OK    - Size:   39936, CRC: 31999
+ 28: SetArchDatabaseRes.dll    OK    - Size:   37376, CRC:  2765
+ 29: SetEmailDatabaseRes.dll    OK    - Size:   38400, CRC: 37226
+ 30: SysMonRes.dll            OK    - Size:   44544, CRC: 19913
+ 31: Update2487Res.dll        OK    - Size:   40448, CRC: 60301
+ 32: ValidationManagerRes.dll    OK    - Size:   86016, CRC: 27467
+ 33: ValidationReviewRes.dll    OK    - Size:   55296, CRC:  9846
+ 34: VerifyOptRes.dll         OK    - Size:   39936, CRC: 30051
+ 35: Waters.Empower.AnalyticsViewer.resources.dll    OK    - Size:   55296, CRC:  2092
+ 36: Waters.Licensing.Wizard.resources.dll    OK    - Size:   65536, CRC: 34579
+ 37: WatersEmailServiceRes.dll    OK    - Size:   34816, CRC: 30727
+ 38: msdiagRes.dll            OK    - Size:   45056, CRC: 11640
+ 39: mseditorRes.dll          OK    - Size:   41472, CRC: 18022
+ 40: optintRes.dll            OK    - Size:   36352, CRC:  7862
+ 41: pdacalibRes.dll          OK    - Size:   43008, CRC: 58912
+ 42: pdadiagRes.dll           OK    - Size:   44544, CRC: 48956
+ 43: pmeditorRes.dll          OK    - Size:   40960, CRC: 25793
+ 44: procmonRes.dll           OK    - Size:   42496, CRC: 65306
+ 45: procsrvrRes.dll          OK    - Size:   39424, CRC:  4200
+ 46: restoredbRes.dll         OK    - Size:  325120, CRC: 15809
+
+  46 files, 34162688 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\script\ directory:
+97 files to check:
+
+  1: Analytics_Tables.sql     OK    - Size:    1672, CRC: 54746
+  2: CaseSensitive.sql        OK    - Size:      59, CRC: 51599
+  3: ExternalTable.sql        OK    - Size:    8976, CRC: 58962
+  4: HostData-en.sql          OK    - Size:    1778, CRC: 15004
+  5: HostData-ja.sql          OK    - Size:    1750, CRC: 32612
+  6: HostData-ko.sql          OK    - Size:    1710, CRC: 57879
+  7: HostData-zh-CHS.sql      OK    - Size:    1705, CRC: 65333
+  8: IQ1-en-US.txt            OK    - Size:    4142, CRC:  3761
+  9: IQ1-en.txt               OK    - Size:    4142, CRC:  3761
+ 10: IQ1-ja.txt               OK    - Size:    4096, CRC:  1011
+ 11: IQ1-ko.txt               OK    - Size:    5409, CRC: 34972
+ 12: IQ1-zh-CHS.txt           OK    - Size:    3872, CRC: 52865
+ 13: IQ2-en-US.txt            OK    - Size:    3870, CRC:  7065
+ 14: IQ2-en.txt               OK    - Size:    3870, CRC: 35469
+ 15: IQ2-ja.txt               OK    - Size:    4017, CRC: 62396
+ 16: IQ2-ko.txt               OK    - Size:    5220, CRC: 19352
+ 17: IQ2-zh-CHS.txt           OK    - Size:    3753, CRC:  2059
+ 18: IQ3-en-US.txt            OK    - Size:    5132, CRC: 36679
+ 19: IQ3-en.txt               OK    - Size:    5132, CRC:  4089
+ 20: IQ3-ja.txt               OK    - Size:    4859, CRC: 52909
+ 21: IQ3-ko.txt               OK    - Size:    6335, CRC: 32758
+ 22: IQ3-zh-CHS.txt           OK    - Size:    4862, CRC: 57860
+ 23: LoadAuditVerificationsFunction.sql    OK    - Size:    1206, CRC: 23705
+ 24: MilloginFunction.sql     OK    - Size:    1041, CRC: 31011
+ 25: NEWTS.sql                OK    - Size:    1644, CRC: 45479
+ 26: ProjectData.Sql          OK    - Size:    8163, CRC: 50633
+ 27: RestartDB.sql            OK    - Size:     469, CRC: 17987
+ 28: UpdHToPoint01.sql        OK    - Size:      89, CRC: 44860
+ 29: UpdPToPoint01.sql        OK    - Size:     379, CRC:  8610
+ 30: UpdProj3200to3210.Sql    OK    - Size:     173, CRC:  9720
+ 31: UpdateE3FR2Users.sql     OK    - Size:     318, CRC: 46152
+ 32: W2707_Plate_Type.txt     OK    - Size:     751, CRC: 44418
+ 33: addredologs.sql          OK    - Size:     423, CRC:  9686
+ 34: changeProfile.sql        OK    - Size:    2260, CRC:  6401
+ 35: createOracleFolders.sql    OK    - Size:     767, CRC: 64302
+ 36: createusers.sql          OK    - Size:    5707, CRC: 26862
+ 37: empower.dbc              OK    - Size:    5163, CRC: 63374
+ 38: emptyempowertemplate.dbt    OK    - Size:   14397, CRC: 48810
+ 39: function_based_indexes.sql    OK    - Size:    1066, CRC: 28597
+ 40: host.sql                 OK    - Size:   56228, CRC: 38652
+ 41: import_sys.SQL           OK    - Size:       0, CRC:     0
+ 42: mscalreference.dmp       OK    - Size:  124928, CRC: 29814
+ 43: newdefaults.sql          OK    - Size:    1771, CRC: 25627
+ 44: optimizer_tuning_parameters.sql    OK    - Size:     189, CRC: 30119
+ 45: platetype.dmp            OK    - Size:   12288, CRC: 44650
+ 46: project.sql              OK    - Size:  103254, CRC: 14057
+ 47: reporting-en.dmp         OK    - Size: 33546240, CRC: 18896
+ 48: reporting-ja.dmp         OK    - Size: 32784384, CRC: 32661
+ 49: reporting-ko.dmp         OK    - Size: 36364288, CRC: 39641
+ 50: reporting-zh-CHS.dmp     OK    - Size: 33245184, CRC: 49243
+ 51: roles.sql                OK    - Size:    8007, CRC: 26826
+ 52: settings.sql             OK    - Size:    3524, CRC: 26646
+ 53: shutdmil.sql             OK    - Size:      51, CRC: 45112
+ 54: startmil.sql             OK    - Size:      96, CRC: 11729
+ 55: updDropIndicesFor61001.sql    OK    - Size:     492, CRC: 39610
+ 56: updhost30to32.sql        OK    - Size:    2711, CRC:  4758
+ 57: updhost32to40.sql        OK    - Size:   25469, CRC: 18893
+ 58: updhost40to50_sql.tem    OK    - Size:    1786, CRC: 47032
+ 59: updhost5.00.01to60.sql    OK    - Size:   12086, CRC: 58416
+ 60: updhost50to5.00.01.sql    OK    - Size:     112, CRC: 13449
+ 61: updhost60to61.sql        OK    - Size:     334, CRC:  4665
+ 62: updhost61001to62.sql     OK    - Size:    1212, CRC: 56627
+ 63: updhost61to61001.sql     OK    - Size:    2132, CRC: 55160
+ 64: updhost62to70.sql        OK    - Size:   22981, CRC: 64239
+ 65: updhost70to71.sql        OK    - Size:    2354, CRC:  6471
+ 66: updhost71to72.sql        OK    - Size:    1218, CRC:  5512
+ 67: updhost721to73.sql       OK    - Size:     902, CRC: 10605
+ 68: updhost72to721.sql       OK    - Size:     279, CRC: 11018
+ 69: updhost73to74.sql        OK    - Size:     280, CRC: 42912
+ 70: updhost741to750.sql      OK    - Size:     342, CRC: 28633
+ 71: updhost74to741.sql       OK    - Size:    1619, CRC: 12094
+ 72: updhost74to741Procedure.sql    OK    - Size:    8277, CRC: 40624
+ 73: updhost750to751.sql      OK    - Size:     308, CRC: 64035
+ 74: updhost751to752.Sql      OK    - Size:     274, CRC: 35682
+ 75: updhostinternal.sql      OK    - Size:     477, CRC: 64970
+ 76: updhostinternal5.00.01.sql    OK    - Size:     162, CRC: 33868
+ 77: updhostui.sql            OK    - Size:     687, CRC: 21697
+ 78: updproj30to32.sql        OK    - Size:    6253, CRC: 49353
+ 79: updproj32to40.sql        OK    - Size:    8076, CRC: 25306
+ 80: updproj40to50.sql        OK    - Size:    3312, CRC: 38519
+ 81: updproj5.00.01to60.sql    OK    - Size:   12799, CRC:  3831
+ 82: updproj50to5.00.01.sql    OK    - Size:     198, CRC:  4355
+ 83: updproj60to61.sql        OK    - Size:   21329, CRC: 53236
+ 84: updproj61to62.sql        OK    - Size:    1414, CRC: 53622
+ 85: updproj62to70.sql        OK    - Size:   58545, CRC: 46685
+ 86: updproj70to71.sql        OK    - Size:     741, CRC:  6016
+ 87: updproj71to72.sql        OK    - Size:    7322, CRC: 12809
+ 88: updproj721to73.sql       OK    - Size:    1108, CRC: 64618
+ 89: updproj72to721.sql       OK    - Size:     946, CRC: 33260
+ 90: updproj73to74.sql        OK    - Size:     397, CRC: 14043
+ 91: updproj741to750.sql      OK    - Size:     258, CRC: 56378
+ 92: updproj74to741.sql       OK    - Size:     541, CRC: 24918
+ 93: updproj750to751.sql      OK    - Size:     258, CRC: 57545
+ 94: updprojinternal.sql      OK    - Size:     781, CRC: 25467
+ 95: updprojinternal5.00.01.sql    OK    - Size:     180, CRC: 44264
+ 96: updprojui.sql            OK    - Size:     319, CRC: 21623
+ 97: viewfilter.dmp           OK    - Size:   10240, CRC: 19567
+
+  97 files, 136602320 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\help\en\ directory:
+39 files to check:
+
+  1: AcquHelp.chm             OK    - Size:  536975, CRC: 19861
+  2: DataAnalysis.chm         OK    - Size: 2489969, CRC: 41337
+  3: HHActiveX.dll            OK    - Size:  471040, CRC: 50325
+  4: ProjectManagement.chm    OK    - Size:  814542, CRC: 38736
+  5: QSNHelp.chm              OK    - Size:  596646, CRC: 22146
+  6: RegulatoryCompliance.chm    OK    - Size:  602914, CRC: 25637
+  7: ReportGeneration.chm     OK    - Size:  650985, CRC: 27866
+  8: Restoredb.chm            OK    - Size:  574908, CRC: 21364
+  9: SetArchDatabase.chm      OK    - Size:  570972, CRC: 51042
+ 10: ShowMe.chm               OK    - Size: 1168780, CRC:  2631
+ 11: Sysaudit.chm             OK    - Size:  573001, CRC:   409
+ 12: SystemAdministration.chm    OK    - Size:  615602, CRC: 46663
+ 13: UserManagement.chm       OK    - Size:  608270, CRC: 43949
+ 14: analytics.chm            OK    - Size:  575751, CRC: 54121
+ 15: cmgr.chm                 OK    - Size:  737639, CRC:  2774
+ 16: comhelp.chm              OK    - Size: 1168594, CRC: 57194
+ 17: compare.chm              OK    - Size:  691167, CRC: 27619
+ 18: dataacquisition.chm      OK    - Size: 1359029, CRC: 39767
+ 19: dconvert.chm             OK    - Size:   48900, CRC: 23029
+ 20: empower.chm              OK    - Size: 1092150, CRC: 24066
+ 21: empowerbasics.chm        OK    - Size: 2778976, CRC: 55740
+ 22: empowerqs.chm            OK    - Size: 3098919, CRC: 45432
+ 23: instmeth.chm             OK    - Size:  501247, CRC: 59418
+ 24: methset.chm              OK    - Size:  595739, CRC: 20733
+ 25: methval.chm              OK    - Size: 1506098, CRC: 57428
+ 26: monsys.chm               OK    - Size:  578458, CRC: 13528
+ 27: msgctr.chm               OK    - Size:  593262, CRC: 59207
+ 28: openaccs.chm             OK    - Size:  628037, CRC: 51465
+ 29: pdacalib.chm             OK    - Size:  583421, CRC: 20516
+ 30: pdadiag.chm              OK    - Size:  575073, CRC: 31457
+ 31: procmon.chm              OK    - Size:  572113, CRC: 10133
+ 32: project.chm              OK    - Size:  719599, CRC:  8649
+ 33: quickset.chm             OK    - Size:  596301, CRC: 12250
+ 34: quickstart.chm           OK    - Size:  675170, CRC: 13486
+ 35: reference.chm            OK    - Size:  571448, CRC: 62486
+ 36: reppub.chm               OK    - Size:  710327, CRC: 58625
+ 37: review.chm               OK    - Size: 1235977, CRC:  1454
+ 38: setemaildatabase.chm     OK    - Size:  573525, CRC: 56630
+ 39: troubleshooting.chm      OK    - Size:  708264, CRC: 64341
+
+  39 files, 33749788 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\help\ja\ directory:
+40 files to check:
+
+  1: Comhelp.chm              OK    - Size: 1377410, CRC: 51170
+  2: DataAcquisition.chm      OK    - Size: 1357922, CRC: 55414
+  3: DataAnalysis.chm         OK    - Size: 3217306, CRC: 54657
+  4: Empower.chm              OK    - Size: 1341387, CRC: 57057
+  5: EmpowerBasics.chm        OK    - Size: 4852722, CRC: 64225
+  6: HHActiveX.dll            OK    - Size:  471040, CRC: 50325
+  7: ProjectManagement.chm    OK    - Size: 1110588, CRC: 47496
+  8: QSNHelp.chm              OK    - Size:  596646, CRC: 22146
+  9: RegulatoryCompliance.chm    OK    - Size:  618398, CRC: 61409
+ 10: ShowMe.chm               OK    - Size: 1173517, CRC:  6933
+ 11: SystemAdministration.chm    OK    - Size:  633252, CRC: 29098
+ 12: UserManagement.chm       OK    - Size:  621552, CRC: 54162
+ 13: acquhelp.chm             OK    - Size:  646256, CRC: 55209
+ 14: analytics.chm            OK    - Size:  580641, CRC: 11399
+ 15: cmgr.chm                 OK    - Size:  815455, CRC: 31499
+ 16: compare.chm              OK    - Size:  737123, CRC: 22168
+ 17: dconvert.chm             OK    - Size:  574216, CRC: 34371
+ 18: empowerqs.chm            OK    - Size: 7195706, CRC: 26299
+ 19: instmeth.chm             OK    - Size:  605749, CRC: 50704
+ 20: methset.chm              OK    - Size:  606261, CRC:   560
+ 21: methval.chm              OK    - Size: 1916534, CRC: 42895
+ 22: monsys.chm               OK    - Size:  583284, CRC: 29596
+ 23: msgctr.chm               OK    - Size:  609280, CRC: 36747
+ 24: mvmaddendum.chm          OK    - Size:  538767, CRC: 43543
+ 25: openaccs.chm             OK    - Size:  649589, CRC: 30393
+ 26: pdacalib.chm             OK    - Size:  674813, CRC: 22087
+ 27: pdadiag.chm              OK    - Size:  576841, CRC: 60183
+ 28: procmon.chm              OK    - Size:  574653, CRC: 17687
+ 29: project.chm              OK    - Size:  796363, CRC: 25583
+ 30: quickset.chm             OK    - Size:  649999, CRC: 32435
+ 31: quickstart.chm           OK    - Size:  710236, CRC: 28557
+ 32: reference.chm            OK    - Size:  572470, CRC: 29165
+ 33: reportgeneration.chm     OK    - Size:  672057, CRC: 42846
+ 34: reppub.chm               OK    - Size:  771087, CRC: 55138
+ 35: restoredb.chm            OK    - Size:  577510, CRC: 25862
+ 36: review.chm               OK    - Size: 2014745, CRC:  3454
+ 37: setarchdatabase.chm      OK    - Size:  573032, CRC: 17335
+ 38: setemaildatabase.chm     OK    - Size:  575935, CRC: 63534
+ 39: sysaudit.chm             OK    - Size:  576253, CRC: 31288
+ 40: troubleshooting.chm      OK    - Size:  754790, CRC: 19419
+
+  40 files, 44501385 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\help\ko\ directory:
+40 files to check:
+
+  1: Comhelp.chm              OK    - Size: 1272935, CRC: 54236
+  2: DataAcquisition.chm      OK    - Size: 1296636, CRC: 37345
+  3: DataAnalysis.chm         OK    - Size: 2636100, CRC: 42241
+  4: EmpowerBasics.chm        OK    - Size: 4770475, CRC: 20441
+  5: HHActiveX.dll            OK    - Size:  471040, CRC: 50325
+  6: ProjectManagement.chm    OK    - Size: 1161281, CRC: 56977
+  7: QSNHelp.chm              OK    - Size:  596646, CRC: 22146
+  8: RegulatoryCompliance.chm    OK    - Size:  613059, CRC: 37633
+  9: ReportGeneration.chm     OK    - Size:  657546, CRC: 35419
+ 10: ShowMe.chm               OK    - Size: 1169128, CRC: 54747
+ 11: SystemAdministration.chm    OK    - Size:  626301, CRC: 54272
+ 12: UserManagement.chm       OK    - Size:  613721, CRC: 24793
+ 13: acquhelp.chm             OK    - Size:  641353, CRC: 51347
+ 14: analytics.chm            OK    - Size:  578862, CRC: 22026
+ 15: cmgr.chm                 OK    - Size:  789732, CRC: 29350
+ 16: compare.chm              OK    - Size:  717710, CRC: 16835
+ 17: dconvert.chm             OK    - Size:  574225, CRC: 19623
+ 18: empower.chm              OK    - Size: 1312026, CRC: 58199
+ 19: empowerqs.chm            OK    - Size: 7070565, CRC: 35288
+ 20: instmeth.chm             OK    - Size:  600832, CRC: 35867
+ 21: methset.chm              OK    - Size:  602016, CRC: 37303
+ 22: methval.chm              OK    - Size: 1634909, CRC: 62963
+ 23: monsys.chm               OK    - Size:  581565, CRC: 10393
+ 24: msgctr.chm               OK    - Size:  611307, CRC: 12075
+ 25: mvmaddendum.chm          OK    - Size:  541595, CRC: 56257
+ 26: openaccs.chm             OK    - Size:  639544, CRC: 57116
+ 27: pdacalib.chm             OK    - Size:  586996, CRC: 62351
+ 28: pdadiag.chm              OK    - Size:  576102, CRC: 64122
+ 29: procmon.chm              OK    - Size:  574270, CRC:  2490
+ 30: project.chm              OK    - Size:  769598, CRC: 50512
+ 31: quickset.chm             OK    - Size:  626404, CRC: 10385
+ 32: quickstart.chm           OK    - Size:  694291, CRC: 54875
+ 33: reference.chm            OK    - Size:  572895, CRC: 17348
+ 34: reppub.chm               OK    - Size:  740434, CRC: 39654
+ 35: restoredb.chm            OK    - Size:  577149, CRC:  7770
+ 36: review.chm               OK    - Size: 1700556, CRC:  3059
+ 37: setarchdatabase.chm      OK    - Size:  572869, CRC: 53533
+ 38: setemaildatabase.chm     OK    - Size:  575158, CRC: 16686
+ 39: sysaudit.chm             OK    - Size:  575362, CRC: 36430
+ 40: troubleshooting.chm      OK    - Size:  730171, CRC: 27455
+
+  40 files, 42653364 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\help\zh-chs\ directory:
+40 files to check:
+
+  1: Comhelp.chm              OK    - Size: 1231897, CRC: 39850
+  2: DataAcquisition.chm      OK    - Size: 1413766, CRC: 43341
+  3: DataAnalysis.chm         OK    - Size: 2749499, CRC: 34024
+  4: EmpowerBasics.chm        OK    - Size: 5067077, CRC: 44810
+  5: HHActiveX.dll            OK    - Size:  471040, CRC: 50325
+  6: ProjectManagement.chm    OK    - Size: 1132297, CRC: 24968
+  7: QSNHelp.chm              OK    - Size:  596646, CRC: 22146
+  8: RegulatoryCompliance.chm    OK    - Size:  609741, CRC: 25134
+  9: ShowMe.chm               OK    - Size: 1168704, CRC: 12021
+ 10: SystemAdministration.chm    OK    - Size:  621243, CRC: 12834
+ 11: UserManagement.chm       OK    - Size:  610603, CRC: 51980
+ 12: acquhelp.chm             OK    - Size:  635353, CRC: 33329
+ 13: analytics.chm            OK    - Size:  577880, CRC: 47456
+ 14: cmgr.chm                 OK    - Size:  771784, CRC:  3898
+ 15: compare.chm              OK    - Size:  705256, CRC: 45013
+ 16: dconvert.chm             OK    - Size:  573661, CRC: 21129
+ 17: empower.chm              OK    - Size: 1307774, CRC: 53422
+ 18: empowerqs.chm            OK    - Size: 6658953, CRC: 40217
+ 19: instmeth.chm             OK    - Size:  502086, CRC: 41178
+ 20: methset.chm              OK    - Size:  599336, CRC:  8757
+ 21: methval.chm              OK    - Size: 1737845, CRC: 39318
+ 22: monsys.chm               OK    - Size:  580791, CRC: 26856
+ 23: msgctr.chm               OK    - Size:  602637, CRC: 52680
+ 24: mvmaddendum.chm          OK    - Size:  538956, CRC: 18094
+ 25: openaccs.chm             OK    - Size:  634634, CRC: 61588
+ 26: pdacalib.chm             OK    - Size:  694794, CRC: 13337
+ 27: pdadiag.chm              OK    - Size:  576052, CRC: 61251
+ 28: procmon.chm              OK    - Size:  573572, CRC: 64749
+ 29: project.chm              OK    - Size:  775474, CRC: 58102
+ 30: quickset.chm             OK    - Size:  637682, CRC: 61973
+ 31: quickstart.chm           OK    - Size:  684851, CRC: 15565
+ 32: reference.chm            OK    - Size:  572135, CRC: 60907
+ 33: reportgeneration.chm     OK    - Size:  655262, CRC: 49634
+ 34: reppub.chm               OK    - Size:  755064, CRC: 36987
+ 35: restoredb.chm            OK    - Size:  576599, CRC:  4982
+ 36: review.chm               OK    - Size: 1880150, CRC: 21473
+ 37: setarchdatabase.chm      OK    - Size:  572335, CRC: 40126
+ 38: setemaildatabase.chm     OK    - Size:  575730, CRC: 20246
+ 39: sysaudit.chm             OK    - Size:  574520, CRC: 19430
+ 40: troubleshooting.chm      OK    - Size:  722755, CRC: 38746
+
+  40 files, 42926434 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\ directory:
+5 files to check:
+
+  1: EmpowerLogo.jpg          OK    - Size:  230036, CRC: 37980
+  2: RptBlank.htm             OK    - Size:     539, CRC: 19405
+  3: RptNotFound.htm          OK    - Size:    1076, CRC: 38718
+  4: titleBarEndCell.gif      OK    - Size:     919, CRC: 45660
+  5: titleBarStartCell.gif    OK    - Size:     918, CRC: 58317
+
+   5 files,   233488 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\en\ directory:
+5 files to check:
+
+  1: EmpowerLogo.jpg          OK    - Size:  230036, CRC: 37980
+  2: RptBlank.htm             OK    - Size:     539, CRC: 19405
+  3: RptNotFound.htm          OK    - Size:    1076, CRC: 38718
+  4: titleBarEndCell.gif      OK    - Size:     919, CRC: 45660
+  5: titleBarStartCell.gif    OK    - Size:     918, CRC: 58317
+
+   5 files,   233488 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\en\promain\ directory:
+0 files to check:
+
+
+   0 files,        0 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\en\promain\horizontal\ directory:
+24 files to check:
+
+  1: Horizontal.html          OK    - Size:   25318, CRC: 37673
+  2: about_dn.gif             OK    - Size:     154, CRC: 35760
+  3: about_grey.gif           OK    - Size:     146, CRC: 15279
+  4: background.jpg           OK    - Size:   24494, CRC: 48712
+  5: blank.gif                OK    - Size:      65, CRC: 41034
+  6: bp_dn.gif                OK    - Size:    3015, CRC: 37044
+  7: bp_ov.gif                OK    - Size:    3009, CRC: 50519
+  8: cs_dn.gif                OK    - Size:    3184, CRC: 25668
+  9: cs_ov.gif                OK    - Size:    3169, CRC: 15753
+ 10: exit_dn.gif              OK    - Size:     103, CRC: 56606
+ 11: help_dn.gif              OK    - Size:     146, CRC: 58000
+ 12: help_grey.gif            OK    - Size:     138, CRC: 51701
+ 13: login_dn.gif             OK    - Size:     201, CRC: 57839
+ 14: login_grey.gif           OK    - Size:     194, CRC: 43985
+ 15: logout_dn.gif            OK    - Size:     201, CRC:  3098
+ 16: logout_grey.gif          OK    - Size:     193, CRC: 34759
+ 17: pd_dn.gif                OK    - Size:    3109, CRC: 46960
+ 18: pd_ov.gif                OK    - Size:    3099, CRC: 21399
+ 19: prd_dn.gif               OK    - Size:    3029, CRC: 54784
+ 20: prd_ov.gif               OK    - Size:    2978, CRC: 31774
+ 21: rd_dn.gif                OK    - Size:    2995, CRC:  6135
+ 22: rd_ov.gif                OK    - Size:    3032, CRC: 61848
+ 23: rs_dn.gif                OK    - Size:    3000, CRC: 21135
+ 24: rs_ov.gif                OK    - Size:    2982, CRC: 45146
+
+  24 files,    87954 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\en\promain\vertical\ directory:
+24 files to check:
+
+  1: Vertical.html            OK    - Size:   25997, CRC: 18366
+  2: about_dn.gif             OK    - Size:     154, CRC: 62167
+  3: about_grey.gif           OK    - Size:     146, CRC: 15279
+  4: background.jpg           OK    - Size:   23998, CRC: 37937
+  5: blank.gif                OK    - Size:      65, CRC: 41034
+  6: bp_dn.gif                OK    - Size:    3124, CRC: 59672
+  7: bp_ov.gif                OK    - Size:    3083, CRC: 29757
+  8: cs_dn.gif                OK    - Size:    3211, CRC: 15850
+  9: cs_ov.gif                OK    - Size:    3213, CRC: 15566
+ 10: exit_dn.gif              OK    - Size:     103, CRC: 56606
+ 11: help_dn.gif              OK    - Size:     146, CRC: 38883
+ 12: help_grey.gif            OK    - Size:     138, CRC: 51701
+ 13: login_dn.gif             OK    - Size:     201, CRC: 57839
+ 14: login_grey.gif           OK    - Size:     194, CRC: 43985
+ 15: logout_dn.gif            OK    - Size:     201, CRC:  3098
+ 16: logout_grey.gif          OK    - Size:     193, CRC: 34759
+ 17: pd_dn.gif                OK    - Size:    3204, CRC: 28951
+ 18: pd_ov.gif                OK    - Size:    3195, CRC: 61611
+ 19: prd_dn.gif               OK    - Size:    3103, CRC: 23769
+ 20: prd_ov.gif               OK    - Size:    3024, CRC: 14297
+ 21: rd_dn.gif                OK    - Size:    3102, CRC: 35927
+ 22: rd_ov.gif                OK    - Size:    3124, CRC: 37744
+ 23: rs_dn.gif                OK    - Size:    3147, CRC: 54176
+ 24: rs_ov.gif                OK    - Size:    3169, CRC: 15711
+
+  24 files,    89235 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\en\promain\undocked\ directory:
+23 files to check:
+
+  1: UnDocked.html            OK    - Size:   23613, CRC: 55570
+  2: about_dn.gif             OK    - Size:     154, CRC: 35760
+  3: about_grey.gif           OK    - Size:     146, CRC: 15279
+  4: background.jpg           OK    - Size:   56860, CRC: 20488
+  5: blank.gif                OK    - Size:      65, CRC: 41034
+  6: bp_dn.jpg                OK    - Size:    8513, CRC: 46441
+  7: bp_ov.jpg                OK    - Size:    8717, CRC: 49473
+  8: cs_dn.jpg                OK    - Size:    9054, CRC: 27298
+  9: cs_ov.jpg                OK    - Size:    9289, CRC: 10434
+ 10: help_dn.gif              OK    - Size:     146, CRC: 58000
+ 11: help_grey.gif            OK    - Size:     138, CRC: 51701
+ 12: login_dn.gif             OK    - Size:     201, CRC: 57839
+ 13: login_grey.gif           OK    - Size:     194, CRC: 43985
+ 14: logout_dn.gif            OK    - Size:     201, CRC:  3098
+ 15: logout_grey.gif          OK    - Size:     193, CRC: 34759
+ 16: pd_dn.jpg                OK    - Size:   10222, CRC: 60928
+ 17: pd_ov.jpg                OK    - Size:    9286, CRC: 24936
+ 18: prd_dn.jpg               OK    - Size:    7486, CRC: 34755
+ 19: prd_ov.jpg               OK    - Size:    7080, CRC: 57800
+ 20: rd_dn.jpg                OK    - Size:    9665, CRC: 20709
+ 21: rd_ov.jpg                OK    - Size:    9429, CRC:  1759
+ 22: rs_dn.jpg                OK    - Size:    9091, CRC: 49660
+ 23: rs_ov.jpg                OK    - Size:    8851, CRC: 45554
+
+  23 files,   188594 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\ja\ directory:
+5 files to check:
+
+  1: EmpowerLogo.jpg          OK    - Size:  230036, CRC: 37980
+  2: RptBlank.htm             OK    - Size:     487, CRC: 33763
+  3: RptNotFound.htm          OK    - Size:     926, CRC: 64212
+  4: titleBarEndCell.gif      OK    - Size:     919, CRC: 45660
+  5: titleBarStartCell.gif    OK    - Size:     918, CRC: 58317
+
+   5 files,   233286 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\ja\promain\ directory:
+0 files to check:
+
+
+   0 files,        0 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\ja\promain\horizontal\ directory:
+24 files to check:
+
+  1: Horizontal.html          OK    - Size:   25318, CRC: 37673
+  2: about_dn.gif             OK    - Size:     154, CRC: 35760
+  3: about_grey.gif           OK    - Size:     146, CRC: 15279
+  4: background.jpg           OK    - Size:   19752, CRC: 51654
+  5: blank.gif                OK    - Size:      65, CRC: 41034
+  6: bp_dn.gif                OK    - Size:    3037, CRC:  1510
+  7: bp_ov.gif                OK    - Size:    3151, CRC:  1150
+  8: cs_dn.gif                OK    - Size:    3360, CRC:  9960
+  9: cs_ov.gif                OK    - Size:    3312, CRC: 31454
+ 10: exit_dn.gif              OK    - Size:      99, CRC: 55615
+ 11: help_dn.gif              OK    - Size:     146, CRC: 58000
+ 12: help_grey.gif            OK    - Size:     138, CRC: 51701
+ 13: login_dn.gif             OK    - Size:     201, CRC: 57839
+ 14: login_grey.gif           OK    - Size:     194, CRC: 43985
+ 15: logout_dn.gif            OK    - Size:     201, CRC:  3098
+ 16: logout_grey.gif          OK    - Size:     193, CRC: 34759
+ 17: pd_dn.gif                OK    - Size:    3243, CRC: 37306
+ 18: pd_ov.gif                OK    - Size:    3201, CRC: 41709
+ 19: prd_dn.gif               OK    - Size:    3207, CRC: 51122
+ 20: prd_ov.gif               OK    - Size:    3181, CRC:  9331
+ 21: rd_dn.gif                OK    - Size:    3189, CRC:  3958
+ 22: rd_ov.gif                OK    - Size:    3163, CRC: 15580
+ 23: rs_dn.gif                OK    - Size:    3259, CRC: 14037
+ 24: rs_ov.gif                OK    - Size:    3243, CRC: 55012
+
+  24 files,    85153 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\ja\promain\vertical\ directory:
+24 files to check:
+
+  1: Vertical.html            OK    - Size:   25997, CRC: 18366
+  2: about_dn.gif             OK    - Size:     154, CRC: 62167
+  3: about_grey.gif           OK    - Size:     146, CRC: 15279
+  4: background.jpg           OK    - Size:   19390, CRC: 43965
+  5: blank.gif                OK    - Size:      65, CRC: 41034
+  6: bp_dn.gif                OK    - Size:    3156, CRC:  8059
+  7: bp_ov.gif                OK    - Size:    3190, CRC: 39770
+  8: cs_dn.gif                OK    - Size:    3316, CRC: 33438
+  9: cs_ov.gif                OK    - Size:    3286, CRC: 56015
+ 10: exit_dn.gif              OK    - Size:      99, CRC: 55615
+ 11: help_dn.gif              OK    - Size:     146, CRC: 38883
+ 12: help_grey.gif            OK    - Size:     138, CRC: 51701
+ 13: login_dn.gif             OK    - Size:     201, CRC: 57839
+ 14: login_grey.gif           OK    - Size:     194, CRC: 43985
+ 15: logout_dn.gif            OK    - Size:     201, CRC:  3098
+ 16: logout_grey.gif          OK    - Size:     193, CRC: 34759
+ 17: pd_dn.gif                OK    - Size:    3318, CRC:  8051
+ 18: pd_ov.gif                OK    - Size:    3304, CRC: 46103
+ 19: prd_dn.gif               OK    - Size:    3196, CRC: 23346
+ 20: prd_ov.gif               OK    - Size:    3228, CRC: 40692
+ 21: rd_dn.gif                OK    - Size:    3243, CRC: 24036
+ 22: rd_ov.gif                OK    - Size:    3144, CRC: 19399
+ 23: rs_dn.gif                OK    - Size:    3264, CRC: 20888
+ 24: rs_ov.gif                OK    - Size:    3337, CRC: 13892
+
+  24 files,    85906 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\ja\promain\undocked\ directory:
+23 files to check:
+
+  1: UnDocked.html            OK    - Size:   23613, CRC: 55570
+  2: about_dn.gif             OK    - Size:     154, CRC: 35760
+  3: about_grey.gif           OK    - Size:     146, CRC: 15279
+  4: background.jpg           OK    - Size:   44007, CRC: 47261
+  5: blank.gif                OK    - Size:      65, CRC: 41034
+  6: bp_dn.jpg                OK    - Size:    5740, CRC: 40614
+  7: bp_ov.jpg                OK    - Size:    5972, CRC: 15004
+  8: cs_dn.jpg                OK    - Size:    5614, CRC: 44208
+  9: cs_ov.jpg                OK    - Size:    5823, CRC: 17498
+ 10: help_dn.gif              OK    - Size:     146, CRC: 58000
+ 11: help_grey.gif            OK    - Size:     138, CRC: 51701
+ 12: login_dn.gif             OK    - Size:     201, CRC: 57839
+ 13: login_grey.gif           OK    - Size:     194, CRC: 43985
+ 14: logout_dn.gif            OK    - Size:     201, CRC:  3098
+ 15: logout_grey.gif          OK    - Size:     193, CRC: 34759
+ 16: pd_dn.jpg                OK    - Size:    8950, CRC:   293
+ 17: pd_ov.jpg                OK    - Size:    7961, CRC: 37079
+ 18: prd_dn.jpg               OK    - Size:    6667, CRC:  4831
+ 19: prd_ov.jpg               OK    - Size:    6344, CRC:  4984
+ 20: rd_dn.jpg                OK    - Size:    8554, CRC: 37560
+ 21: rd_ov.jpg                OK    - Size:    8188, CRC: 35412
+ 22: rs_dn.jpg                OK    - Size:    6157, CRC: 23834
+ 23: rs_ov.jpg                OK    - Size:    7991, CRC: 46268
+
+  23 files,   153019 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\ko\ directory:
+5 files to check:
+
+  1: EmpowerLogo.jpg          OK    - Size:  230036, CRC: 37980
+  2: RptBlank.htm             OK    - Size:     584, CRC: 26160
+  3: RptNotFound.htm          OK    - Size:    1007, CRC: 44069
+  4: titleBarEndCell.gif      OK    - Size:     919, CRC: 45660
+  5: titleBarStartCell.gif    OK    - Size:     918, CRC: 58317
+
+   5 files,   233464 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\ko\promain\ directory:
+0 files to check:
+
+
+   0 files,        0 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\ko\promain\horizontal\ directory:
+24 files to check:
+
+  1: Horizontal.html          OK    - Size:   25318, CRC: 37673
+  2: about_dn.gif             OK    - Size:     154, CRC: 35760
+  3: about_grey.gif           OK    - Size:     146, CRC: 15279
+  4: background.jpg           OK    - Size:   19729, CRC: 23077
+  5: blank.gif                OK    - Size:      65, CRC: 41034
+  6: bp_dn.gif                OK    - Size:    3315, CRC: 51018
+  7: bp_ov.gif                OK    - Size:    3306, CRC: 25375
+  8: cs_dn.gif                OK    - Size:    3258, CRC: 38742
+  9: cs_ov.gif                OK    - Size:    3208, CRC:  3092
+ 10: exit_dn.gif              OK    - Size:      99, CRC: 55615
+ 11: help_dn.gif              OK    - Size:     146, CRC: 58000
+ 12: help_grey.gif            OK    - Size:     138, CRC: 51701
+ 13: login_dn.gif             OK    - Size:     201, CRC: 57839
+ 14: login_grey.gif           OK    - Size:     194, CRC: 43985
+ 15: logout_dn.gif            OK    - Size:     201, CRC:  3098
+ 16: logout_grey.gif          OK    - Size:     193, CRC: 34759
+ 17: pd_dn.gif                OK    - Size:    3306, CRC: 13658
+ 18: pd_ov.gif                OK    - Size:    3292, CRC:  5701
+ 19: prd_dn.gif               OK    - Size:    3189, CRC: 57924
+ 20: prd_ov.gif               OK    - Size:    3137, CRC:  1804
+ 21: rd_dn.gif                OK    - Size:    3228, CRC: 10308
+ 22: rd_ov.gif                OK    - Size:    3150, CRC: 24966
+ 23: rs_dn.gif                OK    - Size:    3080, CRC: 49904
+ 24: rs_ov.gif                OK    - Size:    3066, CRC: 26670
+
+  24 files,    85119 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\ko\promain\vertical\ directory:
+24 files to check:
+
+  1: Vertical.html            OK    - Size:   25997, CRC: 18366
+  2: about_dn.gif             OK    - Size:     154, CRC: 62167
+  3: about_grey.gif           OK    - Size:     146, CRC: 15279
+  4: background.jpg           OK    - Size:   18421, CRC:  6698
+  5: blank.gif                OK    - Size:      65, CRC: 41034
+  6: bp_dn.gif                OK    - Size:    3268, CRC: 29882
+  7: bp_ov.gif                OK    - Size:    3277, CRC: 50000
+  8: cs_dn.gif                OK    - Size:    3258, CRC: 28511
+  9: cs_ov.gif                OK    - Size:    3253, CRC:  8218
+ 10: exit_dn.gif              OK    - Size:      99, CRC: 55615
+ 11: help_dn.gif              OK    - Size:     146, CRC: 38883
+ 12: help_grey.gif            OK    - Size:     138, CRC: 51701
+ 13: login_dn.gif             OK    - Size:     201, CRC: 57839
+ 14: login_grey.gif           OK    - Size:     194, CRC: 43985
+ 15: logout_dn.gif            OK    - Size:     201, CRC:  3098
+ 16: logout_grey.gif          OK    - Size:     193, CRC: 34759
+ 17: pd_dn.gif                OK    - Size:    3321, CRC:  6281
+ 18: pd_ov.gif                OK    - Size:    3331, CRC: 36154
+ 19: prd_dn.gif               OK    - Size:    3208, CRC: 33625
+ 20: prd_ov.gif               OK    - Size:    3172, CRC: 10333
+ 21: rd_dn.gif                OK    - Size:    3163, CRC: 58029
+ 22: rd_ov.gif                OK    - Size:    3210, CRC: 65276
+ 23: rs_dn.gif                OK    - Size:    3201, CRC: 39563
+ 24: rs_ov.gif                OK    - Size:    3177, CRC: 45740
+
+  24 files,    84794 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\ko\promain\undocked\ directory:
+23 files to check:
+
+  1: UnDocked.html            OK    - Size:   23613, CRC: 55570
+  2: about_dn.gif             OK    - Size:     154, CRC: 35760
+  3: about_grey.gif           OK    - Size:     146, CRC: 15279
+  4: background.jpg           OK    - Size:   43913, CRC: 25724
+  5: blank.gif                OK    - Size:      65, CRC: 41034
+  6: bp_dn.jpg                OK    - Size:    5761, CRC: 13390
+  7: bp_ov.jpg                OK    - Size:    5898, CRC: 57539
+  8: cs_dn.jpg                OK    - Size:    5462, CRC: 13299
+  9: cs_ov.jpg                OK    - Size:    5602, CRC:  3093
+ 10: help_dn.gif              OK    - Size:     146, CRC: 58000
+ 11: help_grey.gif            OK    - Size:     138, CRC: 51701
+ 12: login_dn.gif             OK    - Size:     201, CRC: 57839
+ 13: login_grey.gif           OK    - Size:     194, CRC: 43985
+ 14: logout_dn.gif            OK    - Size:     201, CRC:  3098
+ 15: logout_grey.gif          OK    - Size:     193, CRC: 34759
+ 16: pd_dn.jpg                OK    - Size:    9714, CRC: 41176
+ 17: pd_ov.jpg                OK    - Size:    8666, CRC: 35137
+ 18: prd_dn.jpg               OK    - Size:    7085, CRC: 57398
+ 19: prd_ov.jpg               OK    - Size:    6582, CRC: 42522
+ 20: rd_dn.jpg                OK    - Size:    8974, CRC: 21796
+ 21: rd_ov.jpg                OK    - Size:    8551, CRC: 42636
+ 22: rs_dn.jpg                OK    - Size:    5823, CRC: 27747
+ 23: rs_ov.jpg                OK    - Size:    7596, CRC: 50473
+
+  23 files,   154678 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\zh-chs\ directory:
+5 files to check:
+
+  1: EmpowerLogo.jpg          OK    - Size:  230036, CRC: 37980
+  2: RptBlank.htm             OK    - Size:     481, CRC: 49977
+  3: RptNotFound.htm          OK    - Size:     768, CRC: 43371
+  4: titleBarEndCell.gif      OK    - Size:     919, CRC: 45660
+  5: titleBarStartCell.gif    OK    - Size:     918, CRC: 58317
+
+   5 files,   233122 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\zh-chs\promain\ directory:
+0 files to check:
+
+
+   0 files,        0 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\zh-chs\promain\horizontal\ directory:
+24 files to check:
+
+  1: Horizontal.html          OK    - Size:   25318, CRC: 36632
+  2: about_dn.gif             OK    - Size:     154, CRC: 35760
+  3: about_grey.gif           OK    - Size:     146, CRC: 15279
+  4: background.jpg           OK    - Size:   20276, CRC: 48093
+  5: blank.gif                OK    - Size:      65, CRC: 41034
+  6: bp_dn.gif                OK    - Size:    3072, CRC: 60398
+  7: bp_ov.gif                OK    - Size:    3118, CRC: 51701
+  8: cs_dn.gif                OK    - Size:    3163, CRC: 24181
+  9: cs_ov.gif                OK    - Size:    3133, CRC: 35892
+ 10: exit_dn.gif              OK    - Size:      99, CRC: 55615
+ 11: help_dn.gif              OK    - Size:     146, CRC: 58000
+ 12: help_grey.gif            OK    - Size:     138, CRC: 51701
+ 13: login_dn.gif             OK    - Size:     201, CRC: 57839
+ 14: login_grey.gif           OK    - Size:     194, CRC: 43985
+ 15: logout_dn.gif            OK    - Size:     201, CRC:  3098
+ 16: logout_grey.gif          OK    - Size:     193, CRC: 34759
+ 17: pd_dn.gif                OK    - Size:    3148, CRC:  1008
+ 18: pd_ov.gif                OK    - Size:    3106, CRC: 48802
+ 19: prd_dn.gif               OK    - Size:    3192, CRC:  8292
+ 20: prd_ov.gif               OK    - Size:    3103, CRC:  7924
+ 21: rd_dn.gif                OK    - Size:    3091, CRC: 45761
+ 22: rd_ov.gif                OK    - Size:    3088, CRC: 52390
+ 23: rs_dn.gif                OK    - Size:    3126, CRC: 61204
+ 24: rs_ov.gif                OK    - Size:    3103, CRC: 52326
+
+  24 files,    84574 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\zh-chs\promain\vertical\ directory:
+24 files to check:
+
+  1: Vertical.html            OK    - Size:   25997, CRC: 18366
+  2: about_dn.gif             OK    - Size:     154, CRC: 62167
+  3: about_grey.gif           OK    - Size:     146, CRC: 15279
+  4: background.jpg           OK    - Size:   19414, CRC: 46943
+  5: blank.gif                OK    - Size:      65, CRC: 41034
+  6: bp_dn.gif                OK    - Size:    3162, CRC: 40207
+  7: bp_ov.gif                OK    - Size:    3136, CRC: 48452
+  8: cs_dn.gif                OK    - Size:    3196, CRC: 46539
+  9: cs_ov.gif                OK    - Size:    3156, CRC: 50090
+ 10: exit_dn.gif              OK    - Size:      99, CRC: 55615
+ 11: help_dn.gif              OK    - Size:     146, CRC: 38883
+ 12: help_grey.gif            OK    - Size:     138, CRC: 51701
+ 13: login_dn.gif             OK    - Size:     201, CRC: 57839
+ 14: login_grey.gif           OK    - Size:     194, CRC: 43985
+ 15: logout_dn.gif            OK    - Size:     201, CRC:  3098
+ 16: logout_grey.gif          OK    - Size:     193, CRC: 34759
+ 17: pd_dn.gif                OK    - Size:    3241, CRC: 23739
+ 18: pd_ov.gif                OK    - Size:    3205, CRC: 28976
+ 19: prd_dn.gif               OK    - Size:    3217, CRC: 58108
+ 20: prd_ov.gif               OK    - Size:    3210, CRC: 59154
+ 21: rd_dn.gif                OK    - Size:    3148, CRC: 48645
+ 22: rd_ov.gif                OK    - Size:    3102, CRC: 16852
+ 23: rs_dn.gif                OK    - Size:    3213, CRC: 44121
+ 24: rs_ov.gif                OK    - Size:    3174, CRC: 29907
+
+  24 files,    85108 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\html\zh-chs\promain\undocked\ directory:
+23 files to check:
+
+  1: UnDocked.html            OK    - Size:   23613, CRC: 41250
+  2: about_dn.gif             OK    - Size:     154, CRC: 35760
+  3: about_grey.gif           OK    - Size:     146, CRC: 15279
+  4: background.jpg           OK    - Size:   44513, CRC: 55814
+  5: blank.gif                OK    - Size:      65, CRC: 41034
+  6: bp_dn.jpg                OK    - Size:    5272, CRC: 28970
+  7: bp_ov.jpg                OK    - Size:    5429, CRC: 62126
+  8: cs_dn.jpg                OK    - Size:    8317, CRC: 36516
+  9: cs_ov.jpg                OK    - Size:    5502, CRC:  6576
+ 10: help_dn.gif              OK    - Size:     146, CRC: 58000
+ 11: help_grey.gif            OK    - Size:     138, CRC: 51701
+ 12: login_dn.gif             OK    - Size:     201, CRC: 57839
+ 13: login_grey.gif           OK    - Size:     194, CRC: 43985
+ 14: logout_dn.gif            OK    - Size:     201, CRC:  3098
+ 15: logout_grey.gif          OK    - Size:     193, CRC: 34759
+ 16: pd_dn.jpg                OK    - Size:    9444, CRC: 45015
+ 17: pd_ov.jpg                OK    - Size:    8436, CRC: 19953
+ 18: prd_dn.jpg               OK    - Size:    6989, CRC: 44891
+ 19: prd_ov.jpg               OK    - Size:    6570, CRC: 62138
+ 20: rd_dn.jpg                OK    - Size:    9064, CRC: 40640
+ 21: rd_ov.jpg                OK    - Size:    8627, CRC: 22169
+ 22: rs_dn.jpg                OK    - Size:    5853, CRC: 25669
+ 23: rs_ov.jpg                OK    - Size:    8352, CRC:  5410
+
+  23 files,   157419 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\instrumentserver\ directory:
+2 files to check:
+
+  1: buslace.hex              OK    - Size: 1025692, CRC: 29437
+  2: remove.exe               OK    - Size:   34317, CRC: 59392
+
+   2 files,  1060009 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\instruments\ directory:
+0 files to check:
+
+
+   0 files,        0 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\instruments\utilities\ directory:
+1 files to check:
+
+  1: ConfigureICSx64OS.exe    OK    - Size:  787968, CRC: 47088
+
+   1 files,   787968 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\instruments\utilities\en-us\ directory:
+1 files to check:
+
+  1: ConfigureICSx64OS.resources.dll    OK    - Size:  409600, CRC: 48643
+
+   1 files,   409600 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\instruments\utilities\ja\ directory:
+1 files to check:
+
+  1: ConfigureICSx64OS.resources.dll    OK    - Size:  409600, CRC: 19322
+
+   1 files,   409600 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\instruments\utilities\ko\ directory:
+1 files to check:
+
+  1: ConfigureICSx64OS.resources.dll    OK    - Size:  409600, CRC: 46240
+
+   1 files,   409600 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+
+*****************************************************************
+Waters File Verification Utility - V 4.02
+
+Verifies integrity of disk files by comparing their current CRC's
+and sizes with original values recorded during installation.
+
+
+Checksum values for files in d:\empower\instruments\utilities\zh-chs\ directory:
+1 files to check:
+
+  1: ConfigureICSx64OS.resources.dll    OK    - Size:  409600, CRC: 15601
+
+   1 files,   409600 bytes total
+   0 file(s) found changed
+   0 file(s) missing
+*****************************************************************
+Waters Installation Qualification - Summary
+
+No Installation changes were detected.
+
+This verifies your software installation on this node.
+
++-----------------------------------------------------------------------+
+|                                                                       |
+|                         PASS ______       FAIL ______                 |
+|                                                                       |
+| The undersigned performer attests that the above information          |
+| contained in this document is correct and complete.                   |
+|                                                                       |
+| Performer:__________________________________   Date: _______________  |
+|                                                                       |
+| The undersigned reviewer accepts that all of the information          |
+| contained in this document is correct and complete.                   |
+|                                                                       |
+| Reviewer:____________________________________  Date: _______________  |
+|                                                                       |
++-----------------------------------------------------------------------+
+*****************************************************************
