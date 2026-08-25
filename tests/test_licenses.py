@@ -181,3 +181,33 @@ def test_summary_category_header_keeps_its_header_font():
     header = next(r for r in ws.iter_rows() if r[0].value == "Category")
     assert header[0].font.color.rgb == header[1].font.color.rgb
     assert header[0].font.color.rgb.endswith("FFFFFF")
+
+
+def test_pdf_header_is_found_past_a_byte_order_mark():
+    """The spec allows %PDF anywhere in the first 1024 bytes and readers
+    follow suit, so a file that picked up a BOM or a banner on its way
+    through an email gateway is still a PDF — it used to be handed to the
+    text decoder and rejected as "not a Licensing Wizard PDF"."""
+    from licenses import parse_upload
+    padded = b"\xef\xbb\xbf" + SAMPLE.read_bytes()
+    res = parse_upload(padded)
+    assert res.installation == "EmpowerDemo" and len(res.licenses) == 19
+
+
+def test_a_pdf_that_hangs_poppler_is_a_400_not_a_500():
+    """subprocess.TimeoutExpired is not a ValueError, so it escaped
+    _get_result()'s handler and became a 500 with no message for the user."""
+    import subprocess
+
+    import licenses as licenses_mod
+
+    def boom(*a, **kw):
+        raise subprocess.TimeoutExpired(cmd="pdftotext", timeout=60)
+
+    real, subprocess.run = subprocess.run, boom
+    try:
+        with __import__("pytest").raises(ValueError) as e:
+            licenses_mod.pdf_to_text(b"%PDF-1.4 whatever")
+    finally:
+        subprocess.run = real
+    assert "too long" in str(e.value)

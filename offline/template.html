@@ -85,9 +85,19 @@ Object.values(opts).forEach(el => el.addEventListener('change', () => currentTex
 $('reset').addEventListener('click', () => { currentFile = currentText = current = null; input.value = ''; result.hidden = true; drop.hidden = false; showError(''); });
 document.querySelectorAll('[data-dl]').forEach(b => b.addEventListener('click', () => download(b.dataset.dl)));
 
+// %PDF anywhere in the first 1024 bytes, not only at offset 0 - the spec
+// tolerates it and readers follow suit, so a file with a byte-order mark or
+// a banner ahead of the header is still a PDF. Mirrors licenses.parse_upload.
+function looksLikePdf(bytes) {
+  const n = Math.min(bytes.length - 3, 1024);
+  for (let i = 0; i < n; i++)
+    if (bytes[i] === 0x25 && bytes[i + 1] === 0x50 && bytes[i + 2] === 0x44 && bytes[i + 3] === 0x46) return true;
+  return false;
+}
+
 async function extractText(file) {
   const bytes = new Uint8Array(await file.arrayBuffer());
-  if (bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46) {
+  if (looksLikePdf(bytes)) {
     const doc = await pdfjs.getDocument({ data: bytes }).promise;
     const lines = [];
     for (let p = 1; p <= doc.numPages; p++) lines.push(...ESLC.itemsToLines((await (await doc.getPage(p)).getTextContent()).items));

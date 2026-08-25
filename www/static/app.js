@@ -4,6 +4,11 @@
   const errBox = document.getElementById('error');
   const result = document.getElementById('result');
   let currentFile = null;
+  // Every checkbox toggle re-uploads and re-renders. Two quick toggles put
+  // two requests in flight, and the slower one finishing last painted the
+  // table for options the page no longer has ticked. Each request claims a
+  // ticket; only the newest is allowed to render.
+  let previewSeq = 0;
 
   const opts = { remove_sqt: document.getElementById('remove_sqt'), remove_zero: document.getElementById('remove_zero') };
   const fields = { company: document.getElementById('company'), support_id: document.getElementById('support_id'), sold_to: document.getElementById('sold_to'), order_number: document.getElementById('order_number') };
@@ -29,16 +34,18 @@
     if (!/\.(pdf|txt)$/i.test(file.name) && !['application/pdf', 'text/plain'].includes(file.type)) return showError('Please choose a PDF or .txt file.');
     drop.classList.add('busy');
     const fd = form(file);
+    const ticket = ++previewSeq;
     try {
       const r = await fetch('/api/preview', { method: 'POST', body: fd });
       const data = await r.json().catch(() => ({ error: 'Unexpected server response.' }));
+      if (ticket !== previewSeq) return;          // a newer toggle already won
       if (!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
       currentFile = file;
       render(data);
     } catch (e) {
-      showError(e.message);
+      if (ticket === previewSeq) showError(e.message);
     } finally {
-      drop.classList.remove('busy');
+      if (ticket === previewSeq) drop.classList.remove('busy');
     }
   }
 

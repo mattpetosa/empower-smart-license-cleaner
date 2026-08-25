@@ -243,10 +243,19 @@ def remove_zero_qty(res: Result) -> Result:
 
 
 def pdf_to_text(pdf_bytes: bytes) -> str:
-    proc = subprocess.run(
-        ["pdftotext", "-layout", "-", "-"],
-        input=pdf_bytes, capture_output=True, timeout=60,
-    )
+    try:
+        proc = subprocess.run(
+            ["pdftotext", "-layout", "-", "-"],
+            input=pdf_bytes, capture_output=True, timeout=60,
+        )
+    except subprocess.TimeoutExpired as exc:
+        # ValueError, not the raw TimeoutExpired: app._get_result() turns a
+        # ValueError into a 400 with the message on it, while anything else
+        # escapes as a 500 and tells the user nothing. A PDF that takes
+        # poppler more than a minute is a bad upload, not a broken server.
+        raise ValueError(
+            "That PDF took too long to read - it may be corrupt or very "
+            "large. Try re-printing it from the Licensing Wizard.") from exc
     if proc.returncode != 0:
         raise ValueError("Could not read that PDF: " + proc.stderr.decode(errors="replace")[:200])
     return proc.stdout.decode("utf-8", errors="replace")
@@ -256,9 +265,17 @@ def parse_pdf(pdf_bytes: bytes) -> Result:
     return parse_text(pdf_to_text(pdf_bytes))
 
 
+# The PDF spec puts the %PDF header at the start of the file but tolerates
+# it anywhere in the first 1024 bytes, and readers follow suit - a byte-order
+# mark or a stray banner ahead of it is common enough in files that have been
+# through an email gateway. Requiring it at offset 0 sent those to the text
+# decoder, which then told the user their PDF was not a PDF.
+PDF_HEADER_WINDOW = 1024
+
+
 def parse_upload(data: bytes) -> Result:
     """PDF (Licensing Wizard printout) or .txt (Checksum report) - sniffed by content."""
-    if data.startswith(b"%PDF"):
+    if b"%PDF" in data[:PDF_HEADER_WINDOW]:
         return parse_pdf(data)
     text = data.decode("utf-8", errors="replace")
     if "Option Properly Installed" in text or "Waters File Verification" in text:
