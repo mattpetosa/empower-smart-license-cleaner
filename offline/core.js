@@ -19,6 +19,12 @@
   };
   const INSTRUMENT_RE = /\b(Agilent|Shimadzu|Thermo|Hitachi|PerkinElmer|Perkin Elmer|Bruker|Dionex)\b/i;
   const DEFAULT_QTY_ONE = ['system suitability', 'gpc', 'sec', 'dissolution'];
+  // Whole words only, matching licenses.py's DEFAULT_QTY_ONE_RE. A plain
+  // substring test made 'sec' match 'Empower Security Option', which the
+  // Wizard genuinely prints without a count - and the workbook then claimed
+  // a quantity of 1 that Waters never stated. \b still matches inside
+  // punctuation, so 'GPC/SEC Option' is unaffected.
+  const DEFAULT_QTY_ONE_RE = new RegExp('\\b(?:' + DEFAULT_QTY_ONE.join('|') + ')\\b', 'i');
 
   function categorize(name, qtyLabel) {
     const n = name.toLowerCase();
@@ -30,8 +36,7 @@
     return 'Options';
   }
   function defaultQty(name, qty) {
-    const n = name.toLowerCase(), words = n.split(/\s+/);
-    if (qty === null && DEFAULT_QTY_ONE.some(k => words.includes(k) || n.includes(k))) return 1;
+    if (qty === null && DEFAULT_QTY_ONE_RE.test(name)) return 1;
     return qty;
   }
   const cleanSerial = s => s.trim().replace(SUFFIX_RE, '');
@@ -64,7 +69,12 @@
       for (const [k, rx] of Object.entries(CHK_META)) { const m = rx.exec(line); if (m && res[k] === null) { res[k] = m[1]; hit = true; break; } }
       if (hit) continue;
       const m = CHK_LINE_RE.exec(line);
-      if (!m) continue;
+      // Most of this file is CRC noise and listing it would bury the signal.
+      // A line that announces an installed option but doesn't fit the
+      // grammar is a different thing entirely: it IS a license, and dropping
+      // it without a word left the workbook quietly short a row. Mirrors
+      // licenses.parse_checksum_text.
+      if (!m) { if (line.includes('Option Properly Installed')) res.unparsed.push(line.trim()); continue; }
       let desc = m[1].trim(), qty = null, label = null;
       const qm = CHK_QTY_RE.exec(desc);
       if (qm) { qty = parseInt(qm[1], 10); desc = qm[2].trim(); const low = desc.toLowerCase(); label = low.includes('user') ? 'User licenses' : low.includes('system') ? 'System licenses' : null; }

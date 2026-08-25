@@ -101,3 +101,43 @@ def test_checksum_txt():
     by = {l.serial: l for l in res.licenses}
     assert by["N9YQB3628E"].qty == 1 and by["M4QHG2190T"].qty == 1  # System Suitability, Dissolution
     assert "sqt" in by["N0TSV0026V"].name.lower()
+
+
+def test_default_qty_matches_whole_words_only():
+    """"sec" used to match "Empower Security Option" as a substring, so a
+    license the Wizard deliberately prints without a count arrived in the
+    Waters workbook claiming a quantity of 1 that Waters never stated."""
+    text = """Waters Licensing Wizard : X
+   [Empower Security Option] Serial No: B1
+   [Empower 3 Secure Data Option] Serial No: B2
+   [Empower 3 GPC/SEC Option] Serial No: B3
+   [Empower 3 System Suitability] Serial No: B4
+   [Empower 3 Dissolution] Serial No: B5
+   [Empower 3 GPC] Serial No: B6
+"""
+    res = parse_text(text)
+    assert {l.serial: l.qty for l in res.licenses} == {
+        "B1": None, "B2": None, "B3": 1, "B4": 1, "B5": 1, "B6": 1}
+
+
+def test_unreadable_checksum_option_lines_are_recorded():
+    """The grammar wants two or more spaces before "Serial Number"; a report
+    printed with a tab or a single space used to vanish without a trace.
+    It is still not parsed, but it now shows up on the Removed sheet
+    instead of leaving the workbook quietly short a row."""
+    from licenses import parse_checksum_text
+    text = (
+        "Company Name - Example Pharma Inc\n"
+        "Option Properly Installed - 5 Named User License(s)          "
+        "Serial Number - W3SAP2033M-001\n"
+        "Option Properly Installed - 1 Dissolution License(s)\t"
+        "Serial Number - Q1ABC2345D\n"
+        "Option Properly Installed - 1 GPC License(s) "
+        "Serial Number - Q1ABC2346E\n"
+        "CRC 0x8842aa noise line that is not a license at all\n"
+    )
+    res = parse_checksum_text(text)
+    assert [l.serial for l in res.licenses] == ["W3SAP2033M"]
+    assert len(res.unparsed) == 2
+    assert all("Option Properly Installed" in u for u in res.unparsed)
+    assert not any("CRC" in u for u in res.unparsed)

@@ -99,10 +99,16 @@ def categorize(name: str, qty_label: str | None) -> str:
 # Option licenses the Wizard prints without a count but which are really one
 # seat each - shown (and exported) as Quantity 1.
 DEFAULT_QTY_ONE = ("system suitability", "gpc", "sec", "dissolution")
+# Whole words only. A plain substring test made "sec" match "Empower
+# Security Option", which the Wizard genuinely prints without a count -
+# and the workbook then claimed a quantity of 1 that Waters never stated.
+# \b still matches inside punctuation, so "GPC/SEC Option" is unaffected.
+DEFAULT_QTY_ONE_RE = re.compile(
+    r"\b(?:" + "|".join(re.escape(k) for k in DEFAULT_QTY_ONE) + r")\b", re.I)
 
 
 def default_qty(name: str, qty: int | None) -> int | None:
-    if qty is None and any(k in name.lower().split() or k in name.lower() for k in DEFAULT_QTY_ONE):
+    if qty is None and DEFAULT_QTY_ONE_RE.search(name):
         return 1
     return qty
 
@@ -160,7 +166,17 @@ def parse_checksum_text(text: str) -> Result:
         else:
             m = CHK_LINE_RE.match(line)
             if not m:
-                continue  # everything else in this file is CRC noise, not worth listing
+                # Most of this file is CRC noise and listing it would bury
+                # the signal. A line that announces an installed option but
+                # doesn't fit the grammar is a different thing entirely: it
+                # IS a license, and dropping it without a word left the
+                # workbook quietly short a row - the exact failure the
+                # Removed sheet exists to make visible. The grammar wants
+                # two or more spaces before "Serial Number", so a report
+                # printed with a tab or a single space lands here.
+                if "Option Properly Installed" in line:
+                    res.unparsed.append(line.strip())
+                continue
             desc = m.group("desc").strip()
             qty, label = None, None
             qm = CHK_QTY_RE.match(desc)

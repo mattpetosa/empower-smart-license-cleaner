@@ -15,8 +15,13 @@ async function pdfText(bytes) {
   for (let p = 1; p <= doc.numPages; p++) lines.push(...ESLC.itemsToLines((await (await doc.getPage(p)).getTextContent()).items));
   return lines.join('\n');
 }
+// unparsed is compared too: both parsers now record the license-looking
+// lines they could not read, and a drift there is a row missing from one
+// side's Removed sheet - exactly the kind of divergence this test exists
+// to catch.
 const norm = r => ({ installation: r.installation, printed: r.printed, company: r.company, support_id: r.support_id,
-  licenses: r.licenses.map(l => [l.category, l.name, l.qty, l.qty_label, l.serial]), removed: r.removed.map(x => x.reason) });
+  licenses: r.licenses.map(l => [l.category, l.name, l.qty, l.qty_label, l.serial]), removed: r.removed.map(x => x.reason),
+  unparsed: r.unparsed });
 
 let failed = 0;
 for (const f of ['fixtures/sample-empower370.pdf', 'fixtures/sample-checksum.txt']) {
@@ -27,7 +32,8 @@ for (const f of ['fixtures/sample-empower370.pdf', 'fixtures/sample-checksum.txt
 import json,sys; sys.path.insert(0,'${root}')
 from licenses import parse_upload; r=parse_upload(open('${path.join(root, f)}','rb').read())
 print(json.dumps({'installation':r.installation,'printed':r.printed,'company':r.company,'support_id':r.support_id,
- 'licenses':[[l.category,l.name,l.qty,l.qty_label,l.serial] for l in r.licenses],'removed':[x.reason for x in r.removed]}))`]).toString());
+ 'licenses':[[l.category,l.name,l.qty,l.qty_label,l.serial] for l in r.licenses],'removed':[x.reason for x in r.removed],
+ 'unparsed':r.unparsed}))`]).toString());
   const a = JSON.stringify(js), b = JSON.stringify(py);
   if (a === b) console.log(`OK   ${f}: ${js.licenses.length} rows match Python`);
   else { failed++; console.log(`FAIL ${f}`); writeFileSync('/tmp/js.json', JSON.stringify(js, null, 1)); writeFileSync('/tmp/py.json', JSON.stringify(py, null, 1)); }
