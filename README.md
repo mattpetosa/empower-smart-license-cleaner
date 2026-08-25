@@ -1,4 +1,4 @@
-# licenses.mhpwebserver.com — Waters Empower Smart License Cleaner (ESLC)
+# Waters Empower Smart License Cleaner (ESLC)
 
 **Empower Smart License Cleaner (ESLC)** — live at https://licenses.mhpwebserver.com, or download the single-file offline version from the site footer. Sample inputs in `fixtures/` are synthetic (fake serials, placeholder company).
 
