@@ -136,11 +136,16 @@
   }
 
   /* ---- CSV (portal format) ---- */
+  // Mirrors excel.inert(): Excel and Sheets both evaluate a field starting
+  // with =, + , - or @ on import, and everything here came out of a Waters
+  // report rather than out of this file. A leading apostrophe is the
+  // standard escape that keeps the cell inert text.
+  const inert = v => (typeof v === 'string' && '=+-@'.includes(v.charAt(0))) ? "'" + v : v;
   function buildCsv(res, details) {
     const out = ['Serial_Numbers'];
     const seen = new Set();
-    for (const l of res.licenses) if (!seen.has(l.serial)) { seen.add(l.serial); out.push(l.serial); }
-    if (details && details.length) { out.push(''); for (const [label, value] of details) out.push(csvCell(`${label}: ${value}`)); }
+    for (const l of res.licenses) if (!seen.has(l.serial)) { seen.add(l.serial); out.push(csvCell(inert(l.serial))); }
+    if (details && details.length) { out.push(''); for (const [label, value] of details) out.push(csvCell(inert(`${label}: ${value}`))); }
     return out.join('\r\n') + '\r\n';
   }
   const csvCell = v => /[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
@@ -193,7 +198,7 @@
   function buildWorkbook(res, details) {
     details = details || [];
     const lic = [];
-    for (const [label, value] of details) lic.push([{ v: label, s: 4 }, value]);
+    for (const [label, value] of details) lic.push([{ v: label, s: 4 }, inert(value)]);
     if (details.length) lic.push([]);
     const hdr = lic.length + 1;
     lic.push(['Category', 'License', 'Quantity', 'Quantity Type', 'Serial No'].map(v => ({ v, s: 1 })));
@@ -201,15 +206,16 @@
     for (const l of res.licenses) {
       const first = l.category !== last; last = l.category;
       lic.push([
-        { v: l.category, s: first ? 2 : 5 }, { v: l.name, s: first ? 3 : 6 },
-        { v: l.qty, s: first ? 8 : 7 }, { v: l.qty_label, s: first ? 3 : 6 }, { v: l.serial, s: first ? 3 : 6 },
+        { v: l.category, s: first ? 2 : 5 }, { v: inert(l.name), s: first ? 3 : 6 },
+        { v: l.qty, s: first ? 8 : 7 }, { v: inert(l.qty_label), s: first ? 3 : 6 },
+        { v: inert(l.serial), s: first ? 3 : 6 },
       ]);
     }
     const licXml = sheetXml(lic, { freezeRow: hdr, filter: `A${hdr}:E${lic.length}` });
 
     const sum = [];
-    for (const [label, value] of details) sum.push([{ v: label, s: 4 }, value]);
-    sum.push([{ v: 'Installation', s: 4 }, res.installation || ''], [{ v: 'Date Printed', s: 4 }, res.printed || ''],
+    for (const [label, value] of details) sum.push([{ v: label, s: 4 }, inert(value)]);
+    sum.push([{ v: 'Installation', s: 4 }, inert(res.installation || '')], [{ v: 'Date Printed', s: 4 }, inert(res.printed || '')],
       [{ v: 'Licenses (after cleanup)', s: 4 }, res.licenses.length], [{ v: 'Lines removed', s: 4 }, res.removed.length], []);
     sum.push(['Category', 'Licenses', 'Total Quantity'].map(v => ({ v, s: 1 })));
     for (const c of CATEGORY_ORDER) {
@@ -219,8 +225,8 @@
     const sumXml = sheetXml(sum, {});
 
     const rem = [['Reason', 'Original Line'].map(v => ({ v, s: 1 }))];
-    for (const r of res.removed) rem.push([r.reason, r.raw]);
-    for (const u of res.unparsed) rem.push(['Unrecognized line (not a license)', u]);
+    for (const r of res.removed) rem.push([r.reason, inert(r.raw)]);
+    for (const u of res.unparsed) rem.push(['Unrecognized line (not a license)', inert(u)]);
     const remXml = sheetXml(rem, { freezeRow: 1, maxWidth: 110 });
 
     const files = [

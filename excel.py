@@ -10,6 +10,21 @@ from openpyxl.utils import get_column_letter
 
 from licenses import CATEGORY_ORDER, Result
 
+def inert(value):
+    """Stop a cell from being read as a live formula.
+
+    Everything here comes out of a Waters report, and a license name or a
+    raw dropped line is text we did not write. openpyxl turns any string
+    starting with "=" into a formula cell outright, and Excel and Sheets
+    both evaluate a CSV field starting with =, +, - or @ on import - the
+    classic CSV-injection path, which on Excel reaches DDE. A leading
+    apostrophe is the standard escape that forces the cell to stay text.
+    """
+    if isinstance(value, str) and value[:1] in ("=", "+", "-", "@"):
+        return "'" + value
+    return value
+
+
 HEADER_FILL = PatternFill("solid", fgColor="1F3A5F")
 HEADER_FONT = Font(bold=True, color="FFFFFF")
 GROUP_FILL = PatternFill("solid", fgColor="E8EEF6")
@@ -46,13 +61,14 @@ def build_workbook(res: Result, details: list[tuple[str, str]] | None = None) ->
         # Company / Support ID / Sold To on the first rows, then a blank line,
         # then the table - so the identifying info is right there when printed.
         for label, value in details:
-            ws.append([label, value])
+            ws.append([label, inert(value)])
             ws[ws.max_row][0].font = Font(bold=True)
         ws.append([])
     hdr = _header(ws, ["Category", "License", "Quantity", "Quantity Type", "Serial No"])
     last_cat = None
     for lic in res.licenses:
-        ws.append([lic.category, lic.name, lic.qty, lic.qty_label, lic.serial])
+        ws.append([lic.category, inert(lic.name), lic.qty,
+                   inert(lic.qty_label), inert(lic.serial)])
         row = ws[ws.max_row]
         for c in row:
             c.border = BORDER
@@ -69,14 +85,15 @@ def build_workbook(res: Result, details: list[tuple[str, str]] | None = None) ->
 
     summary = wb.create_sheet("Summary")
     for label, value in details:
-        summary.append([label, value])
-    summary.append(["Installation", res.installation or ""])
-    summary.append(["Date Printed", res.printed or ""])
+        summary.append([label, inert(value)])
+    summary.append(["Installation", inert(res.installation or "")])
+    summary.append(["Date Printed", inert(res.printed or "")])
     summary.append(["Licenses (after cleanup)", len(res.licenses)])
     summary.append(["Lines removed", len(res.removed)])
     summary.append([])
     summary.append(["Category", "Licenses", "Total Quantity"])
-    for c in summary[summary.max_row]:
+    cat_header_row = summary.max_row
+    for c in summary[cat_header_row]:
         c.fill, c.font, c.border = HEADER_FILL, HEADER_FONT, BORDER
     counts = Counter(l.category for l in res.licenses)
     qty = Counter()
@@ -85,16 +102,21 @@ def build_workbook(res: Result, details: list[tuple[str, str]] | None = None) ->
     for cat in CATEGORY_ORDER:
         if counts[cat]:
             summary.append([cat, counts[cat], qty[cat]])
+    # Skips the category header row: bolding column A unconditionally
+    # replaced its white-on-navy header font with plain black bold, so
+    # "Category" alone came out unreadable against the dark fill while
+    # "Licenses" and "Total Quantity" beside it stayed white.
     for r in summary.iter_rows(min_row=1, max_col=1):
-        r[0].font = Font(bold=True)
+        if r[0].row != cat_header_row:
+            r[0].font = Font(bold=True)
     _autosize(summary)
 
     removed = wb.create_sheet("Removed")
     _header(removed, ["Reason", "Original Line"])
     for r in res.removed:
-        removed.append([r.reason, r.raw])
+        removed.append([r.reason, inert(r.raw)])
     for line in res.unparsed:
-        removed.append(["Unrecognized line (not a license)", line])
+        removed.append(["Unrecognized line (not a license)", inert(line)])
     _autosize(removed, maximum=110)
 
     buf = io.BytesIO()
@@ -113,13 +135,15 @@ def build_csv(res: Result, simple: bool, details: list[tuple[str, str]] | None =
     if simple:
         w.writerow(["Serial_Numbers"])
         for s in dict.fromkeys(l.serial for l in res.licenses):
-            w.writerow([s])
+            w.writerow([inert(s)])
         if details:
             w.writerow([])
             for label, value in details:
-                w.writerow([f"{label}: {value}"])
+                w.writerow([inert(f"{label}: {value}")])
     else:
         w.writerow(["Category", "License", "Quantity", "Quantity Type", "Serial No"])
         for l in res.licenses:
-            w.writerow([l.category, l.name, "" if l.qty is None else l.qty, l.qty_label or "", l.serial])
+            w.writerow([l.category, inert(l.name),
+                        "" if l.qty is None else l.qty,
+                        inert(l.qty_label or ""), inert(l.serial)])
     return buf.getvalue()

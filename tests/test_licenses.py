@@ -141,3 +141,43 @@ def test_unreadable_checksum_option_lines_are_recorded():
     assert len(res.unparsed) == 2
     assert all("Option Properly Installed" in u for u in res.unparsed)
     assert not any("CRC" in u for u in res.unparsed)
+
+
+def test_untrusted_cells_cannot_become_formulas():
+    """A license name or serial is text out of a Waters report, not something
+    we wrote. openpyxl turns a leading "=" into a formula cell outright, and
+    Excel evaluates a CSV field starting with =, +, - or @ on import."""
+    import io as _io
+
+    from excel import build_csv
+    from licenses import License, Result
+
+    res = Result(installation="=HYPERLINK(1)", printed=None, licenses=[
+        License(name="=cmd|'/c calc'!A1", serial="@SUM(1)", qty=1,
+                qty_label=None, raw="[=evil] Serial No: @SUM(1)",
+                category="Options")])
+    res.removed.append(__import__("licenses").Removed("-2+3", "Duplicate serial"))
+
+    wb = load_workbook(filename=_io.BytesIO(build_workbook(res)))
+    for sheet in wb.sheetnames:
+        for row in wb[sheet].iter_rows():
+            for c in row:
+                assert c.data_type != "f", f"{sheet}!{c.coordinate} is a formula"
+    assert wb["Licenses"]["B2"].value == "'=cmd|'/c calc'!A1"
+
+    csv_rows = build_csv(res, simple=True).split("\r\n")
+    assert csv_rows[1] == "'@SUM(1)"
+
+
+def test_summary_category_header_keeps_its_header_font():
+    """Column A was bolded row by row afterwards, which replaced the white
+    header font on "Category" with plain black — unreadable on the navy fill
+    while "Licenses" and "Total Quantity" beside it stayed white."""
+    import io as _io
+
+    res = parse_pdf(SAMPLE.read_bytes())
+    wb = load_workbook(filename=_io.BytesIO(build_workbook(res)))
+    ws = wb["Summary"]
+    header = next(r for r in ws.iter_rows() if r[0].value == "Category")
+    assert header[0].font.color.rgb == header[1].font.color.rgb
+    assert header[0].font.color.rgb.endswith("FFFFFF")
