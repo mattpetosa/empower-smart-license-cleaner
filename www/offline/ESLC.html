@@ -102,7 +102,7 @@ summary{cursor:pointer}
         <tbody></tbody>
       </table>
     </div>
-    <details id="removedbox">
+    <details id="removedbox" open>
       <summary><span id="removedcount"></span> line(s) removed during cleanup</summary>
       <table id="removed"><thead><tr><th>Reason</th><th>Original line</th></tr></thead><tbody></tbody></table>
     </details>
@@ -404,7 +404,7 @@ input.addEventListener('change', () => input.files[0] && handle(input.files[0]))
 drop.addEventListener('drop', e => { const f = e.dataTransfer.files[0]; if (f) handle(f); });
 document.addEventListener('paste', e => { const f = [...(e.clipboardData?.files || [])][0]; if (f) handle(f); });
 Object.values(opts).forEach(el => el.addEventListener('change', () => currentText && render()));
-$('reset').addEventListener('click', () => { currentFile = currentText = current = null; input.value = ''; result.hidden = true; drop.hidden = false; showError(''); });
+$('reset').addEventListener('click', () => { currentFile = currentText = current = null; input.value = ''; for (const el of Object.values(fields)) el.value = ''; result.hidden = true; drop.hidden = false; showError(''); });
 document.querySelectorAll('[data-dl]').forEach(b => b.addEventListener('click', () => download(b.dataset.dl)));
 
 // %PDF anywhere in the first 1024 bytes, not only at offset 0 - the spec

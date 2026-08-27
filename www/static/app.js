@@ -25,7 +25,7 @@
   document.addEventListener('paste', (e) => { const f = [...(e.clipboardData?.files || [])][0]; if (f) handle(f); });
 
   document.getElementById('reset').addEventListener('click', () => {
-    currentFile = null; input.value = ''; result.hidden = true; drop.hidden = false; showError('');
+    currentFile = null; input.value = ''; for (const el of Object.values(fields)) el.value = ''; result.hidden = true; drop.hidden = false; showError('');
   });
   document.querySelectorAll('[data-dl]').forEach(b => b.addEventListener('click', () => download(b)));
 
