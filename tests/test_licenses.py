@@ -211,3 +211,13 @@ def test_a_pdf_that_hangs_poppler_is_a_400_not_a_500():
     finally:
         subprocess.run = real
     assert "too long" in str(e.value)
+
+
+def test_simple_csv_never_carries_details():
+    """The Waters portal upload chokes on anything below the serial list."""
+    from excel import build_csv
+    res = parse_pdf(SAMPLE.read_bytes())
+    rows = build_csv(res, simple=True, details=[("Company", "Acme"), ("Support ID", "123")]).split("\r\n")
+    assert rows[0] == "Serial_Numbers"
+    assert all(r and " " not in r and ":" not in r for r in rows[1:-1]), rows
+    assert rows[-1] == ""

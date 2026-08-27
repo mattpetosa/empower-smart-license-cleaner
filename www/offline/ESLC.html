@@ -256,7 +256,8 @@ summary{cursor:pointer}
     const out = ['Serial_Numbers'];
     const seen = new Set();
     for (const l of res.licenses) if (!seen.has(l.serial)) { seen.add(l.serial); out.push(csvCell(inert(l.serial))); }
-    if (details && details.length) { out.push(''); for (const [label, value] of details) out.push(csvCell(inert(`${label}: ${value}`))); }
+    // Serials only: the Waters portal rejects a file with anything below the
+    // list. Details live in the filename and the workbook (mirrors excel.build_csv).
     return out.join('\r\n') + '\r\n';
   }
   const csvCell = v => /[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;

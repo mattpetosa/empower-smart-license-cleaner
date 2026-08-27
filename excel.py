@@ -127,7 +127,8 @@ def build_workbook(res: Result, details: list[tuple[str, str]] | None = None) ->
 def build_csv(res: Result, simple: bool, details: list[tuple[str, str]] | None = None) -> str:
     """Detailed: same columns as the Licenses sheet. Simple: the Waters
     licensing-portal upload format - a single `Serial_Numbers` column, one
-    cleaned serial per line, CRLF, deduplicated in order."""
+    cleaned serial per line, CRLF, deduplicated in order, nothing else
+    (`details` is accepted for signature parity but ignored)."""
     import csv
 
     buf = io.StringIO()
@@ -136,10 +137,9 @@ def build_csv(res: Result, simple: bool, details: list[tuple[str, str]] | None =
         w.writerow(["Serial_Numbers"])
         for s in dict.fromkeys(l.serial for l in res.licenses):
             w.writerow([inert(s)])
-        if details:
-            w.writerow([])
-            for label, value in details:
-                w.writerow([inert(f"{label}: {value}")])
+        # The Waters portal rejects a file with anything below the serial
+        # list, so the details (company, support ID...) stay in the filename
+        # and in the workbook only - never in this column.
     else:
         w.writerow(["Category", "License", "Quantity", "Quantity Type", "Serial No"])
         for l in res.licenses:
