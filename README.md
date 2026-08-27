@@ -31,7 +31,7 @@ written to disk.
     sudo nginx -t && sudo systemctl reload nginx
 
 ## Releasing
-Bump `VERSION`, `python3 offline/build.py`, commit, then `git tag -a vX.Y.Z` + `gh release create vX.Y.Z www/offline/ESLC.html#EmpowerSmartLicenseCleaner_vX.Y.Z.html` — the release asset is the offline file.
+Bump `VERSION`, `python3 offline/build.py`, commit, then `git tag -a vX.Y.Z`, push, `cp www/offline/ESLC.html /tmp/EmpowerSmartLicenseCleaner_vX.Y.Z.html` and `gh release create vX.Y.Z /tmp/EmpowerSmartLicenseCleaner_vX.Y.Z.html` — the release asset is the offline file. (The `file#label` form only changes the display label; the asset keeps the on-disk filename, so copy it first.)
 
 ## Versioning
 Bump `VERSION` (semver, shown in both footers), then `python3 offline/build.py` so the offline file carries it.
