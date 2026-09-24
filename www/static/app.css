@@ -2,7 +2,9 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 .wrap{max-width:1000px;margin:0 auto;padding:40px 20px 80px}
-h1{margin:0 0 8px;font-size:28px}
+h1{margin:0 0 8px;font-size:28px;display:flex;align-items:center;gap:14px}
+h1 .badge{margin-left:0}
+h1 .logo{width:44px;height:44px;flex:none;filter:drop-shadow(0 0 12px rgba(200,205,215,.18))}
 .sub{color:var(--muted);margin:0 0 28px;max-width:720px}
 code{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:0 5px;font-size:13px}
 .drop{border:2px dashed var(--line);border-radius:12px;background:var(--panel);padding:48px 20px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s}
