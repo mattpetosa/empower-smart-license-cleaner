@@ -193,6 +193,155 @@ def parse_checksum_text(text: str) -> Result:
     return _finalize(res, parsed)
 
 
+# ---- Excel workbooks (.xlsx) -------------------------------------------------
+# People hand these over in whatever shape they built: Wizard lines pasted one
+# per cell (with a stray "[" lost here and there and extra columns of notes
+# beside them), or a proper table with License / Qty / Serial columns. Each row
+# is tried in that order:
+#   1. any cell (or any line inside a multi-line cell) that reads like a Wizard
+#      or Checksum line - the name, count and key all come from that text;
+#   2. otherwise a table row: the serial from the column headed "Serial"/"Key"
+#      (or, with no such header, a cell that looks like a Waters key), the
+#      name from the column headed License/Description/... (or the longest
+#      license-sounding cell), the count from a Qty/Count column.
+# A row with a key-looking value that can't be paired with a license name
+# goes to the Removed sheet as unrecognized, never silently dropped.
+XL_LINE_RE = re.compile(
+    r"^\s*\[?(?P<name>[^\[\]]+?)\s*\]\s*(?:(?P<qtylabel>[A-Za-z ]+?[Ll]icenses)\s*:\s*(?P<qty>\d+)\s*)?"
+    r"[Ss]erial\s*(?:[Nn]o|[Nn]umber)\.?\s*[:\-]?\s*(?P<serial>[A-Za-z0-9]\S*)\s*$"
+)
+# Same line with the brackets gone entirely: the count label then has to be
+# there to show where the name ends.
+XL_BARE_RE = re.compile(
+    r"^\s*(?P<name>[^\s\[\]][^\[\]]*?)\s+(?P<qtylabel>[A-Za-z]+(?: [Cc]ontrol)? [Ll]icenses)\s*:\s*(?P<qty>\d+)\s*"
+    r"[Ss]erial\s*(?:[Nn]o|[Nn]umber)\.?\s*[:\-]?\s*(?P<serial>[A-Za-z0-9]\S*)\s*$"
+)
+XL_SERIAL_CELL_RE = re.compile(r"^(?:[Ss]erial\s*(?:[Nn]o|[Nn]umber)\.?\s*[:\-]?\s*)?(?P<serial>[A-Za-z0-9][A-Za-z0-9-]{3,29})$")
+# A Waters key with no header to vouch for it: 10 or 18 upper-case letters and
+# digits (both present), optional -NNN pack suffix. Shorter codes such as
+# database names (SBEP0573) don't qualify.
+WATERS_KEY_RE = re.compile(r"^(?=[A-Z0-9]*[A-Z])(?=[A-Z0-9]*\d)(?:[A-Z0-9]{18}|[A-Z0-9]{10})(?:-\d{3})?$")
+XL_SERIAL_HDR_RE = re.compile(r"serial|\bkeys?\b", re.I)
+XL_NAME_HDR_RE = re.compile(r"licen[cs]e|description|option|product|\bname\b|\btype\b|\bitem\b|module", re.I)
+XL_QTY_HDR_RE = re.compile(r"\b(?:qty|quantity|counts?|seats?|units?)\b", re.I)
+XL_LICENSE_WORD_RE = re.compile(
+    r"licen[cs]e|empower|option|control|\bpack\b|\buser|\bsystem\b|" + INSTRUMENT_RE.pattern[3:-3], re.I)
+XL_INT_RE = re.compile(r"^\d+$")
+
+
+def _xl_ref(col: int, row: int) -> str:
+    s = ""
+    while col > 0:
+        col, rem = divmod(col - 1, 26)
+        s = chr(65 + rem) + s
+    return f"{s}{row}"
+
+
+def _xl_line(line: str) -> tuple[License, bool] | None:
+    """(license, came-from-a-Checksum-style-line) or None."""
+    m = XL_LINE_RE.match(line) or XL_BARE_RE.match(line)
+    if m:
+        return License(
+            name=m.group("name").strip(), serial=clean_serial(m.group("serial")),
+            qty=int(m.group("qty")) if m.group("qty") else None,
+            qty_label=(m.group("qtylabel") or "").strip() or None, raw=line.strip()), False
+    m = CHK_LINE_RE.match(line)
+    if m:
+        desc, qty, label = m.group("desc").strip(), None, None
+        qm = CHK_QTY_RE.match(desc)
+        if qm:
+            qty, desc = int(qm.group("qty")), qm.group("rest").strip()
+            low = desc.lower()
+            label = "User licenses" if "user" in low else "System licenses" if "system" in low else None
+        return License(name=desc, serial=clean_serial(m.group("serial")), qty=qty, qty_label=label, raw=line.strip()), True
+    return None
+
+
+def _xl_header(cells: list) -> dict | None:
+    """Column roles if this row is a table header, else None."""
+    if any(WATERS_KEY_RE.match(t) for _, t in cells):
+        return None
+    # A label ("Serial Number", "License key"), not a broken data line that
+    # happens to say "Serial No:" - those have a count or key digits in them.
+    serial = next((c for c, t in cells if XL_SERIAL_HDR_RE.search(t) and len(t) <= 40 and not re.search(r"\d", t)), None)
+    if serial is None:
+        return None
+    name = next((c for c, t in cells if c != serial and XL_NAME_HDR_RE.search(t)), None)
+    qty = next((c for c, t in cells if c not in (serial, name) and XL_QTY_HDR_RE.search(t)), None)
+    return {"serial": serial, "name": name, "qty": qty}
+
+
+def parse_grid(sheets: list[dict]) -> Result:
+    """Scan an Excel workbook's cells (xlsx_reader.read_xlsx_grid) for licenses."""
+    res = Result(installation=None, printed=None)
+    parsed: list[License] = []
+    for sheet in sheets:
+        hdr = None
+        for row in sheet["rows"]:
+            r, cells = row["r"], row["cells"]
+            by_col = dict((c, t) for c, t in cells)
+            qty_cell = by_col.get(hdr["qty"]) if hdr and hdr["qty"] else None
+            found = []
+            for col, text in cells:
+                for line in text.splitlines():
+                    hit = _xl_line(line)
+                    if hit is not None:
+                        hit[0].raw = f"{sheet['name']}!{_xl_ref(col, r)}: {hit[0].raw}"
+                        found.append(hit)
+            # A count column only speaks for its row when the row holds one
+            # license - a cell with three pasted lines has one count beside it.
+            if len(found) == 1 and found[0][0].qty is None and qty_cell and XL_INT_RE.match(qty_cell):
+                found[0][0].qty = int(qty_cell)
+            for lic, chk in found:
+                lic.category = categorize(lic.name, lic.qty_label)
+                if lic.category == "Instrument Control (3rd Party)" and lic.qty is None and chk:
+                    lic.qty = 1  # same default as parse_checksum_text
+                lic.qty = default_qty(lic.name, lic.qty)
+                parsed.append(lic)
+            if found:
+                continue
+            h = _xl_header(cells)
+            if h:
+                hdr = h
+                continue
+
+            raw = f"{sheet['name']}!{r}: " + " | ".join(t for _, t in cells)
+            serial_col = serial = None
+            if hdr and hdr["serial"] in by_col:
+                m = XL_SERIAL_CELL_RE.match(by_col[hdr["serial"]])
+                if m:
+                    serial_col, serial = hdr["serial"], m.group("serial")
+            if serial is None:
+                for col, text in cells:
+                    m = XL_SERIAL_CELL_RE.match(text)
+                    if m and WATERS_KEY_RE.match(m.group("serial")):
+                        serial_col, serial = col, m.group("serial")
+                        break
+            if serial is None:
+                # Not a license row - unless it plainly talks about one.
+                if re.search(r"[Ss]erial\s*(?:[Nn]o|[Nn]umber)\b", raw) or any(
+                        WATERS_KEY_RE.match(w) for _, t in cells for w in t.split()):
+                    res.unparsed.append(raw)
+                continue
+            name = None
+            if hdr and hdr["name"] and hdr["name"] != serial_col and hdr["name"] in by_col:
+                name = by_col[hdr["name"]]
+            if name is None:
+                words = [t for c, t in cells if c != serial_col and not XL_INT_RE.match(t)
+                         and XL_LICENSE_WORD_RE.search(t)]
+                name = max(words, key=len) if words else None
+            if not name:
+                res.unparsed.append(raw)
+                continue
+            q = by_col.get(hdr["qty"]) if hdr and hdr["qty"] else None
+            lic = License(name=name, serial=clean_serial(serial),
+                          qty=int(q) if q and XL_INT_RE.match(q) else None, qty_label=None, raw=raw)
+            lic.category = categorize(lic.name, None)
+            lic.qty = default_qty(lic.name, lic.qty)
+            parsed.append(lic)
+    return _finalize(res, parsed)
+
+
 def _finalize(res: Result, parsed: list[License]) -> Result:
     base_serials = {l.serial for l in parsed if l.category == "Base License"}
     seen: set[str] = set()
@@ -273,13 +422,24 @@ def parse_pdf(pdf_bytes: bytes) -> Result:
 PDF_HEADER_WINDOW = 1024
 
 
+def parse_xlsx(data: bytes) -> Result:
+    from xlsx_reader import read_xlsx_grid
+    return parse_grid(read_xlsx_grid(data))
+
+
 def parse_upload(data: bytes) -> Result:
-    """PDF (Licensing Wizard printout) or .txt (Checksum report) - sniffed by content."""
+    """PDF (Licensing Wizard printout), .txt (Checksum report) or .xlsx
+    (any workbook with the lines/keys in it) - sniffed by content."""
     if b"%PDF" in data[:PDF_HEADER_WINDOW]:
         return parse_pdf(data)
+    if data[:4] == b"PK\x03\x04":
+        return parse_xlsx(data)
+    if data[:8] == b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1":
+        raise ValueError("That's an old-style .xls (or password-protected) Excel file - "
+                         "open it in Excel and Save As .xlsx, then try again.")
     text = data.decode("utf-8", errors="replace")
     if "Option Properly Installed" in text or "Waters File Verification" in text:
         return parse_checksum_text(text)
     if "Serial No:" in text:
         return parse_text(text)
-    raise ValueError("Not a Licensing Wizard PDF or a Checksum .txt report.")
+    raise ValueError("Not a Licensing Wizard PDF, a Checksum .txt report or an Excel .xlsx workbook.")

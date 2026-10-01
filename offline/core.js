@@ -105,10 +105,248 @@
   }
   const cmp = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
 
+  /* ---- Excel workbooks: grid -> licenses (mirrors licenses.parse_grid) ---- */
+  const XL_LINE_RE = /^\s*\[?([^\[\]]+?)\s*\]\s*(?:([A-Za-z ]+?[Ll]icenses)\s*:\s*(\d+)\s*)?[Ss]erial\s*(?:[Nn]o|[Nn]umber)\.?\s*[:\-]?\s*([A-Za-z0-9]\S*)\s*$/;
+  const XL_BARE_RE = /^\s*([^\s\[\]][^\[\]]*?)\s+([A-Za-z]+(?: [Cc]ontrol)? [Ll]icenses)\s*:\s*(\d+)\s*[Ss]erial\s*(?:[Nn]o|[Nn]umber)\.?\s*[:\-]?\s*([A-Za-z0-9]\S*)\s*$/;
+  const XL_SERIAL_CELL_RE = /^(?:[Ss]erial\s*(?:[Nn]o|[Nn]umber)\.?\s*[:\-]?\s*)?([A-Za-z0-9][A-Za-z0-9-]{3,29})$/;
+  const WATERS_KEY_RE = /^(?=[A-Z0-9]*[A-Z])(?=[A-Z0-9]*\d)(?:[A-Z0-9]{18}|[A-Z0-9]{10})(?:-\d{3})?$/;
+  const XL_SERIAL_HDR_RE = /serial|\bkeys?\b/i;
+  const XL_NAME_HDR_RE = /licen[cs]e|description|option|product|\bname\b|\btype\b|\bitem\b|module/i;
+  const XL_QTY_HDR_RE = /\b(?:qty|quantity|counts?|seats?|units?)\b/i;
+  const XL_LICENSE_WORD_RE = /licen[cs]e|empower|option|control|\bpack\b|\buser|\bsystem\b|Agilent|Shimadzu|Thermo|Hitachi|PerkinElmer|Perkin Elmer|Bruker|Dionex/i;
+  const XL_INT_RE = /^\d+$/;
+  const XL_MENTIONS_SERIAL_RE = /[Ss]erial\s*(?:[Nn]o|[Nn]umber)\b/;
+  // Python's str.splitlines() boundaries, so a multi-line cell splits the same way.
+  const splitLines = t => t.split(/\r\n|[\n\r\v\f\x1c-\x1e\x85\u2028\u2029]/);
+
+  function xlRef(col, row) { return colL(col) + row; }
+
+  function xlLine(line) {
+    let m = XL_LINE_RE.exec(line) || XL_BARE_RE.exec(line);
+    if (m) return { name: m[1].trim(), serial: cleanSerial(m[4]), qty: m[3] ? parseInt(m[3], 10) : null, qty_label: (m[2] || '').trim() || null, raw: line.trim() };
+    m = CHK_LINE_RE.exec(line);
+    if (m) {
+      let desc = m[1].trim(), qty = null, label = null;
+      const qm = CHK_QTY_RE.exec(desc);
+      if (qm) { qty = parseInt(qm[1], 10); desc = qm[2].trim(); const low = desc.toLowerCase(); label = low.includes('user') ? 'User licenses' : low.includes('system') ? 'System licenses' : null; }
+      return { name: desc, serial: cleanSerial(m[2]), qty, qty_label: label, raw: line.trim(), chk: true };
+    }
+    return null;
+  }
+
+  function xlHeader(cells) {
+    if (cells.some(([, t]) => WATERS_KEY_RE.test(t))) return null;
+    const find = pred => { const c = cells.find(pred); return c ? c[0] : null; };
+    // A label ("Serial Number", "License key"), not a broken data line that
+    // happens to say "Serial No:" - those have a count or key digits in them.
+    const serial = find(([, t]) => XL_SERIAL_HDR_RE.test(t) && t.length <= 40 && !/\d/.test(t));
+    if (serial === null) return null;
+    const name = find(([c, t]) => c !== serial && XL_NAME_HDR_RE.test(t));
+    const qty = find(([c, t]) => c !== serial && c !== name && XL_QTY_HDR_RE.test(t));
+    return { serial, name, qty };
+  }
+
+  function parseGrid(sheets) {
+    const res = newResult(), parsed = [];
+    for (const sheet of sheets) {
+      let hdr = null;
+      for (const row of sheet.rows) {
+        const r = row.r, cells = row.cells;
+        const byCol = new Map(cells.map(([c, t]) => [c, t]));
+        const qtyCell = hdr && hdr.qty ? byCol.get(hdr.qty) : undefined;
+        const found = [];
+        for (const [col, text] of cells) {
+          for (const line of splitLines(text)) {
+            const lic = xlLine(line);
+            if (lic) { lic.raw = `${sheet.name}!${xlRef(col, r)}: ${lic.raw}`; found.push(lic); }
+          }
+        }
+        // A count column only speaks for its row when the row holds one license.
+        if (found.length === 1 && found[0].qty === null && qtyCell && XL_INT_RE.test(qtyCell)) found[0].qty = parseInt(qtyCell, 10);
+        for (const lic of found) {
+          lic.category = categorize(lic.name, lic.qty_label);
+          if (lic.category === 'Instrument Control (3rd Party)' && lic.qty === null && lic.chk) lic.qty = 1; // same default as parseChecksumText
+          delete lic.chk;
+          lic.qty = defaultQty(lic.name, lic.qty);
+          parsed.push(lic);
+        }
+        if (found.length) continue;
+        const h = xlHeader(cells);
+        if (h) { hdr = h; continue; }
+
+        const raw = `${sheet.name}!${r}: ` + cells.map(([, t]) => t).join(' | ');
+        let serialCol = null, serial = null;
+        if (hdr && byCol.has(hdr.serial)) {
+          const m = XL_SERIAL_CELL_RE.exec(byCol.get(hdr.serial));
+          if (m) { serialCol = hdr.serial; serial = m[1]; }
+        }
+        if (serial === null) {
+          for (const [col, text] of cells) {
+            const m = XL_SERIAL_CELL_RE.exec(text);
+            if (m && WATERS_KEY_RE.test(m[1])) { serialCol = col; serial = m[1]; break; }
+          }
+        }
+        if (serial === null) {
+          if (XL_MENTIONS_SERIAL_RE.test(raw) || cells.some(([, t]) => t.split(/\s+/).some(w => w && WATERS_KEY_RE.test(w)))) res.unparsed.push(raw);
+          continue;
+        }
+        let name = null;
+        if (hdr && hdr.name && hdr.name !== serialCol && byCol.has(hdr.name)) name = byCol.get(hdr.name);
+        if (name === null) {
+          const words = cells.filter(([c, t]) => c !== serialCol && !XL_INT_RE.test(t) && XL_LICENSE_WORD_RE.test(t)).map(([, t]) => t);
+          name = words.length ? words.reduce((a, b) => (b.length > a.length ? b : a)) : null;
+        }
+        if (!name) { res.unparsed.push(raw); continue; }
+        const q = hdr && hdr.qty ? byCol.get(hdr.qty) : undefined;
+        const lic = { name, serial: cleanSerial(serial), qty: q && XL_INT_RE.test(q) ? parseInt(q, 10) : null, qty_label: null, raw };
+        lic.category = categorize(lic.name, null);
+        lic.qty = defaultQty(lic.name, lic.qty);
+        parsed.push(lic);
+      }
+    }
+    return finalize(res, parsed);
+  }
+
+  /* ---- .xlsx -> cell grid (mirrors xlsx_reader.py; same regexes, same output) ---- */
+  const MAX_PART_BYTES = 50 * 1024 * 1024, MAX_COL = 16384;
+  const P = '(?:[A-Za-z_][\\w.-]*:)?';
+  const xr = (src, f) => new RegExp(src.replace(/~/g, P), f);
+  const SHEET_RE = xr('<~sheet\\b([^>]*)>', 'g');
+  const REL_RE = xr('<~Relationship\\b([^>]*)>', 'g');
+  const SI_RE = xr('<~si\\b[^>]*?(?:/>|>(.*?)</~si>)', 'gs');
+  const T_RE = xr('<~t\\b[^>]*?(?:/>|>(.*?)</~t>)', 'gs');
+  const RPH_RE = xr('<~rPh\\b.*?</~rPh>', 'gs');
+  const ROW_RE = xr('<~row\\b([^>]*?)(?:/>|>(.*?)</~row>)', 'gs');
+  const CELL_RE = xr('<~c\\b([^>]*?)(?:/>|>(.*?)</~c>)', 'gs');
+  const V_RE = xr('<~v\\b[^>]*?(?:/>|>(.*?)</~v>)', 's');
+  const IS_RE = xr('<~is\\b[^>]*?(?:/>|>(.*?)</~is>)', 's');
+  const REF_RE = /^([A-Za-z]{1,3})(\d+)$/;
+  const ENTITY_RE = /&(#[xX][0-9a-fA-F]+|#\d+|amp|lt|gt|quot|apos);/g;
+  const OOXML_ESC_RE = /_x([0-9a-fA-F]{4})_/g;
+  const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" };
+
+  function xmlAttr(attrs, name) {
+    const m = new RegExp('(?:^|\\s)' + P + name + '\\s*=\\s*"([^"]*)"').exec(attrs) || new RegExp('(?:^|\\s)' + P + name + "\\s*=\\s*'([^']*)'").exec(attrs);
+    return m ? unescapeXml(m[1]) : null;
+  }
+  function unescapeXml(s) {
+    s = s.replace(ENTITY_RE, (_, e) => {
+      if (e[0] !== '#') return ENTITIES[e];
+      const cp = (e[1] === 'x' || e[1] === 'X') ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10);
+      return cp > 0 && cp <= 0x10FFFF ? String.fromCodePoint(cp) : '';
+    });
+    return s.replace(OOXML_ESC_RE, (_, h) => String.fromCharCode(parseInt(h, 16)));
+  }
+  const textOf = xml => [...xml.replace(RPH_RE, '').matchAll(T_RE)].map(m => unescapeXml(m[1] || '')).join('');
+  const colIndex = letters => [...letters.toUpperCase()].reduce((n, ch) => n * 26 + (ch.charCodeAt(0) - 64), 0);
+  function resolveTarget(target) {
+    if (target.startsWith('/')) return target.slice(1);
+    const parts = [];
+    for (const p of ('xl/' + target).split('/')) { if (p === '..') parts.pop(); else if (p && p !== '.') parts.push(p); }
+    return parts.join('/');
+  }
+
+  function parseSheetXml(xml, shared) {
+    const rows = []; let nextRow = 1;
+    for (const rm of xml.matchAll(ROW_RE)) {
+      const ra = xmlAttr(rm[1], 'r');
+      const rnum = ra && /^\d+$/.test(ra) ? parseInt(ra, 10) : nextRow;
+      nextRow = rnum + 1;
+      const cells = []; let nextCol = 1;
+      for (const cm of (rm[2] || '').matchAll(CELL_RE)) {
+        const attrs = cm[1], inner = cm[2] || '';
+        const ref = REF_RE.exec(xmlAttr(attrs, 'r') || '');
+        const col = ref ? colIndex(ref[1]) : nextCol;
+        nextCol = col + 1;
+        if (col > MAX_COL) continue;
+        const t = xmlAttr(attrs, 't') || 'n';
+        let text;
+        if (t === 'inlineStr') { const im = IS_RE.exec(inner); text = im ? textOf(im[1] || '') : ''; }
+        else {
+          const vm = V_RE.exec(inner), raw = vm ? (vm[1] || '') : '';
+          text = unescapeXml(raw);
+          if (t === 's') { const idx = raw.trim(); text = /^\d+$/.test(idx) && parseInt(idx, 10) < shared.length ? shared[parseInt(idx, 10)] : ''; }
+          else if (t === 'b') text = raw.trim() === '1' ? 'TRUE' : raw.trim() === '0' ? 'FALSE' : raw;
+        }
+        text = text.trim();
+        if (text) cells.push([col, text]);
+      }
+      if (cells.length) rows.push({ r: rnum, cells });
+    }
+    return rows;
+  }
+
+  // Minimal zip reader: central directory -> stored or deflated entries,
+  // inflated with the platform's DecompressionStream (browsers and Node 18+).
+  function zipEntries(u8) {
+    const dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
+    let eocd = -1;
+    for (let i = u8.length - 22; i >= Math.max(0, u8.length - 65557); i--) if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+    if (eocd < 0) throw new Error("Could not read that Excel file - it isn't a valid .xlsx workbook.");
+    const count = dv.getUint16(eocd + 10, true); let p = dv.getUint32(eocd + 16, true);
+    const dec = new TextDecoder(), out = new Map();
+    for (let i = 0; i < count; i++) {
+      if (p + 46 > u8.length || dv.getUint32(p, true) !== 0x02014b50) throw new Error("Could not read that Excel file - it isn't a valid .xlsx workbook.");
+      const method = dv.getUint16(p + 10, true), csize = dv.getUint32(p + 20, true);
+      const nlen = dv.getUint16(p + 28, true), elen = dv.getUint16(p + 30, true), clen = dv.getUint16(p + 32, true), loff = dv.getUint32(p + 42, true);
+      out.set(dec.decode(u8.subarray(p + 46, p + 46 + nlen)), { method, csize, loff });
+      p += 46 + nlen + elen + clen;
+    }
+    return out;
+  }
+  async function zipRead(u8, entries, name) {
+    const e = entries.get(name);
+    if (!e) return null;
+    const dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
+    const start = e.loff + 30 + dv.getUint16(e.loff + 26, true) + dv.getUint16(e.loff + 28, true);
+    const comp = u8.subarray(start, start + e.csize);
+    let data;
+    if (e.method === 0) data = comp;
+    else if (e.method === 8) {
+      const reader = new Blob([comp]).stream().pipeThrough(new DecompressionStream('deflate-raw')).getReader();
+      const chunks = []; let n = 0;
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        n += value.length;
+        if (n > MAX_PART_BYTES) { reader.cancel(); throw new Error('That workbook is too large to read.'); }
+        chunks.push(value);
+      }
+      data = new Uint8Array(n); let o = 0; for (const c of chunks) { data.set(c, o); o += c.length; }
+    } else throw new Error("Could not read that Excel file - it isn't a valid .xlsx workbook.");
+    if (data.length > MAX_PART_BYTES) throw new Error('That workbook is too large to read.');
+    return new TextDecoder().decode(data);
+  }
+
+  async function readXlsxGrid(bytes) {
+    const u8 = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+    const entries = zipEntries(u8);
+    const workbook = await zipRead(u8, entries, 'xl/workbook.xml');
+    if (workbook === null) throw new Error('Not an Excel workbook (.xlsx).');
+    const rels = {}; let sharedPath = 'xl/sharedStrings.xml';
+    for (const m of ((await zipRead(u8, entries, 'xl/_rels/workbook.xml.rels')) || '').matchAll(REL_RE)) {
+      const rid = xmlAttr(m[1], 'Id'), target = xmlAttr(m[1], 'Target'), typ = xmlAttr(m[1], 'Type') || '';
+      if (rid && target) { rels[rid] = resolveTarget(target); if (typ.endsWith('/sharedStrings')) sharedPath = rels[rid]; }
+    }
+    const shared = [...((await zipRead(u8, entries, sharedPath)) || '').matchAll(SI_RE)].map(m => textOf(m[1] || ''));
+    const sheets = [];
+    for (const m of workbook.matchAll(SHEET_RE)) {
+      const path = rels[xmlAttr(m[1], 'id') || ''];
+      if (!path) continue;
+      const xml = await zipRead(u8, entries, path);
+      if (xml === null) continue;
+      sheets.push({ name: xmlAttr(m[1], 'name') || 'Sheet', rows: parseSheetXml(xml, shared) });
+    }
+    return sheets;
+  }
+
+  // The offline page keeps whatever it read: text (PDF/txt) or an xlsx grid.
+  const parseSource = src => (typeof src === 'string' ? parseText(src) : parseGrid(src));
+
   function parseText(text) {
     if (text.includes('Option Properly Installed') || text.includes('Waters File Verification')) return parseChecksumText(text);
     if (text.includes('Serial No:')) return parseWizardText(text);
-    throw new Error('Not a Licensing Wizard PDF or a Checksum .txt report.');
+    throw new Error('Not a Licensing Wizard PDF, a Checksum .txt report or an Excel .xlsx workbook.');
   }
   function removeSqt(res) {
     const keep = [];
@@ -265,9 +503,9 @@
   function baseName(fieldValues, originalName) {
     const parts = fieldValues.map(safe).filter(Boolean);
     if (parts.length) return parts.join('_');
-    return safe(originalName.replace(/\.(pdf|txt)$/i, '')) || 'licenses';
+    return safe(originalName.replace(/\.(pdf|txt|xlsx|xlsm)$/i, '')) || 'licenses';
   }
 
-  const api = { parseText, parseWizardText, parseChecksumText, removeSqt, removeZeroQty, itemsToLines, buildCsv, buildWorkbook, baseName, CATEGORY_ORDER };
+  const api = { parseText, parseWizardText, parseChecksumText, parseGrid, readXlsxGrid, parseSource, removeSqt, removeZeroQty, itemsToLines, buildCsv, buildWorkbook, baseName, CATEGORY_ORDER };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.ESLC = api;
 })(typeof window !== 'undefined' ? window : globalThis);

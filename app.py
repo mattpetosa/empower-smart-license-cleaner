@@ -1,6 +1,7 @@
-"""licenses.mhpwebserver.com - Waters Licensing Wizard PDF -> cleaned Excel.
+"""licenses.mhpwebserver.com - Waters Licensing Wizard PDF / Checksum .txt /
+license spreadsheet -> cleaned Excel.
 
-Stateless by design: the uploaded PDF is parsed in memory and never written to
+Stateless by design: the uploaded file is parsed in memory and never written to
 disk, and nothing is logged beyond gunicorn's access line.
 """
 from __future__ import annotations
@@ -35,7 +36,7 @@ def _get_result():
     if request.form.get("remove_zero") in ("1", "true", "on"):
         remove_zero_qty(res)
     if not res.licenses and not res.removed:
-        return None, ("No license lines found - is this a Licensing Wizard PDF or Checksum .txt?", 422)
+        return None, ("No license lines found - is this a Licensing Wizard PDF, Checksum .txt or a license spreadsheet?", 422)
     return (res, f.filename), None
 
 
@@ -49,7 +50,7 @@ def _base_name(res, original: str) -> str:
     parts = [p for p in parts if p]
     if parts:
         return "_".join(parts)
-    return _safe(re.sub(r"\.(pdf|txt)$", "", original, flags=re.I)) or "licenses"
+    return _safe(re.sub(r"\.(pdf|txt|xlsx|xlsm)$", "", original, flags=re.I)) or "licenses"
 
 
 def _details() -> list[tuple[str, str]]:

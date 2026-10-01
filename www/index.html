@@ -12,14 +12,14 @@
 <main class="wrap">
   <header>
     <h1><img class="logo" src="/static/logo.svg" alt="" width="44" height="44">Empower Smart License Cleaner</h1>
-    <p class="sub">Drop a <strong>Waters Licensing Wizard</strong> PDF printout or a <strong>Checksum_*.txt</strong> report. You get an Excel sheet with the licenses categorized, pack suffixes (<code>-001</code>) stripped, bundled user packs folded into the base key, and duplicates removed. Nothing is stored on the server.</p>
+    <p class="sub">Drop a <strong>Waters Licensing Wizard</strong> PDF printout, a <strong>Checksum_*.txt</strong> report, or an <strong>Excel .xlsx</strong> list of license lines/keys. You get an Excel sheet with the licenses categorized, pack suffixes (<code>-001</code>) stripped, bundled user packs folded into the base key, and duplicates removed. Nothing is stored on the server.</p>
   </header>
 
   <form id="drop" class="drop" tabindex="0">
-    <input id="file" type="file" name="pdf" accept="application/pdf,.pdf,text/plain,.txt" hidden>
+    <input id="file" type="file" name="pdf" accept="application/pdf,.pdf,text/plain,.txt,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xlsx,.xlsm" hidden>
     <div class="drop-inner">
       <div class="icon">📄</div>
-      <div><strong>Drop PDF or Checksum .txt here</strong> or <span class="link">browse</span></div>
+      <div><strong>Drop PDF, Checksum .txt or .xlsx here</strong> or <span class="link">browse</span></div>
       <div class="hint">Up to 10 MB · processed in memory</div>
     </div>
   </form>
@@ -28,7 +28,7 @@
     <label>Support ID <input type="text" id="support_id" placeholder="optional"></label>
     <label>Order number <input type="text" id="order_number" placeholder="optional"></label>
     <label>Sold to <input type="text" id="sold_to" placeholder="optional"></label>
-    <span class="hint">Used for the download names: <code>Company_SupportID_OrderNumber_SoldTo_Detailed_ESLC.xlsx</code> / <code>…_Simple_ESLC.csv</code>. Blank = the PDF's file name. Filled-in values are also written into the files.</span>
+    <span class="hint">Used for the download names: <code>Company_SupportID_OrderNumber_SoldTo_Detailed_ESLC.xlsx</code> / <code>…_Simple_ESLC.csv</code>. Blank = the uploaded file's name. Filled-in values are also written into the files.</span>
   </div>
   <div class="opts">
     <label class="opt"><input type="checkbox" id="remove_sqt"> Remove SQTs <span class="hint">(any license with "SQT" in its name)</span></label>

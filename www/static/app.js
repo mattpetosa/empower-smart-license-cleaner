@@ -31,7 +31,7 @@
 
   async function handle(file) {
     showError('');
-    if (!/\.(pdf|txt)$/i.test(file.name) && !['application/pdf', 'text/plain'].includes(file.type)) return showError('Please choose a PDF or .txt file.');
+    if (!/\.(pdf|txt|xlsx|xlsm)$/i.test(file.name) && !['application/pdf', 'text/plain', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].includes(file.type)) return showError('Please choose a PDF, .txt or .xlsx file.');
     drop.classList.add('busy');
     const fd = form(file);
     const ticket = ++previewSeq;

@@ -221,3 +221,97 @@ def test_simple_csv_never_carries_details():
     assert rows[0] == "Serial_Numbers"
     assert all(r and " " not in r and ":" not in r for r in rows[1:-1]), rows
     assert rows[-1] == ""
+
+
+XLSX = SAMPLE.parent / "sample-spreadsheet.xlsx"
+XLSX_RAW = SAMPLE.parent / "sample-spreadsheet-raw.xlsx"
+
+
+def test_xlsx_pasted_wizard_lines_and_tables():
+    """Excel lists come in whatever shape someone built: Wizard lines pasted
+    into cells beside notes columns, License/Qty/Serial tables, or bare keys
+    next to names. All of them should come out as the same cleaned rows."""
+    from licenses import parse_upload
+    res = parse_upload(XLSX.read_bytes())
+    by = {l.serial: l for l in res.licenses}
+    # pasted lines: the Counts / DB-name columns beside them are not keys
+    assert not any(s.startswith(("SRCDB", "TGTDB")) for s in by)
+    assert by["K3TAQ1001M"].name == "Empower 3 Agilent GC Ctrl License Pack"
+    assert by["K3TAQ1001M"].category == "Instrument Control (3rd Party)"
+    # the leading "[" lost in a copy/paste, and no brackets at all
+    assert by["K3TAQ1003M"].qty == 20 and by["K3TAQ1003M"].name == "Empower 3 Agilent GC Ctrl License Pack"
+    assert by["K5THM3001L"].name == "Empower 3 Thermo LC Ctrl License Pack"
+    # the line's own count beats a disagreeing Counts column
+    assert by["K3TAQ1004M"].qty == 5
+    assert "K3TAQ1005M" in by  # -001 stripped
+    # two licenses in one cell: the cell's single Count speaks for neither
+    assert by["K4SHM2001L"].qty == 2 and by["K4SHM2002L"].qty == 1
+    # License / Qty / Serial Number table: base fold + defaults still apply
+    assert by["R7BAS0001X"].category == "Base License" and by["R7BAS0001X"].qty == 1
+    assert by["Q1SSU2345A"].qty == 1
+    # bare key next to a name, no header row
+    assert by["Z9GPC1234X"].name == "Empower 3 GPC/SEC Option"
+    assert len(res.licenses) == 13
+    reasons = sorted(r.reason for r in res.removed)
+    assert reasons == ["Duplicate serial", "Duplicate serial", "Included with base license (same serial)"]
+    # key-looking rows that can't be read are reported, with where they are
+    assert res.unparsed == [
+        "EU GC + LC!15: [Empower 3 Hitachi LC Ctrl License Pack] System Licenses: 1 Serial No: | 1",
+        "Options!8: 1 | Q1NON9999C | see PO 4471",
+        "No header!3: Instrument S/N | AB12CD34EF",
+    ]
+    assert any(r.raw.startswith("EU GC + LC!A9: ") for r in res.removed)
+
+
+def test_xlsx_reader_handles_hand_written_spreadsheetml():
+    """Not everything is written by Excel: namespace prefixes, inline and
+    rich strings (phonetic runs excluded), rows/cells without r=, stored
+    parts, absolute and ../ relationship targets, formula-only cells."""
+    from xlsx_reader import read_xlsx_grid
+    sheets = read_xlsx_grid(XLSX_RAW.read_bytes())
+    assert [s["name"] for s in sheets] == ["Keys & Packs", "Second"]
+    a = sheets[0]["rows"]
+    assert a[0] == {"r": 1, "cells": [[1, "[Empower 3 Agilent LC Ctrl License Pack] System licenses: 3 Serial No: M1AGL4001Q"], [2, "3"]]}
+    assert a[1]["cells"][0][1].endswith("M2PKE5001Q")  # _x000D_ decoded, then trimmed
+    assert a[2] == {"r": 7, "cells": [[2, "License key"], [3, "Product"], [4, "Qty"]]}
+    assert a[4]["cells"][1] == [4, "TRUE"]
+    assert a[5] == {"r": 10, "cells": [[2, "#REF!"]]}  # SUM with no cached value reads empty
+    assert sheets[1]["rows"][1] == {"r": 3, "cells": [[27, "[Empower 3 GPC Option] Serial No: M4GPC7002Q"]]}
+
+    from licenses import parse_upload
+    res = parse_upload(XLSX_RAW.read_bytes())
+    assert sorted(l.serial for l in res.licenses) == ["M1AGL4001Q", "M2PKE5001Q", "M3BAS6001Q", "M4DIS7001Q", "M4GPC7002Q"]
+    assert res.unparsed == ["Keys & Packs!9: M3BAS6002Q | TRUE"]
+
+
+def test_xlsx_bad_inputs_are_400s_with_a_reason():
+    import io as _io
+    import zipfile
+
+    import pytest
+
+    from licenses import parse_upload
+    with pytest.raises(ValueError, match="Save As .xlsx"):
+        parse_upload(b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1" + b"\0" * 512)
+    with pytest.raises(ValueError, match="valid .xlsx"):
+        parse_upload(b"PK\x03\x04 truncated")
+    buf = _io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as z:
+        z.writestr("word/document.xml", "<w:document/>")
+    with pytest.raises(ValueError, match="Not an Excel workbook"):
+        parse_upload(buf.getvalue())
+
+
+def test_xlsx_through_the_api():
+    import io as _io
+
+    from app import app
+    c = app.test_client()
+    r = c.post("/api/preview", data={"pdf": (_io.BytesIO(XLSX.read_bytes()), "EU list.xlsx")},
+               content_type="multipart/form-data")
+    assert r.status_code == 200, r.json
+    assert len(r.json["licenses"]) == 13 and r.json["filename"] == "EU_list_Detailed_ESLC.xlsx"
+    assert "chk" not in r.json["licenses"][0]
+    r = c.post("/api/csv", data={"pdf": (_io.BytesIO(XLSX.read_bytes()), "EU list.xlsx")},
+               content_type="multipart/form-data")
+    assert r.status_code == 200 and r.data.decode().split("\r\n")[0] == "Serial_Numbers"

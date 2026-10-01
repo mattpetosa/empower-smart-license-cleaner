@@ -11,14 +11,14 @@
 <main class="wrap">
   <header>
     <h1><img class="logo" src="__LOGO__" alt="" width="44" height="44">Empower Smart License Cleaner <span class="badge">offline</span></h1>
-    <p class="sub">Drop a <strong>Waters Licensing Wizard</strong> PDF printout or a <strong>Checksum_*.txt</strong> report. You get an Excel sheet with the licenses categorized, pack suffixes (<code>-001</code>) stripped, bundled user packs folded into the base key, and duplicates removed. Everything runs in this browser tab — nothing leaves your computer.</p>
+    <p class="sub">Drop a <strong>Waters Licensing Wizard</strong> PDF printout, a <strong>Checksum_*.txt</strong> report, or an <strong>Excel .xlsx</strong> list of license lines/keys. You get an Excel sheet with the licenses categorized, pack suffixes (<code>-001</code>) stripped, bundled user packs folded into the base key, and duplicates removed. Everything runs in this browser tab — nothing leaves your computer.</p>
   </header>
 
   <form id="drop" class="drop" tabindex="0">
-    <input id="file" type="file" name="pdf" accept="application/pdf,.pdf,text/plain,.txt" hidden>
+    <input id="file" type="file" name="pdf" accept="application/pdf,.pdf,text/plain,.txt,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xlsx,.xlsm" hidden>
     <div class="drop-inner">
       <div class="icon">📄</div>
-      <div><strong>Drop PDF or Checksum .txt here</strong> or <span class="link">browse</span></div>
+      <div><strong>Drop PDF, Checksum .txt or .xlsx here</strong> or <span class="link">browse</span></div>
       <div class="hint">Processed locally in your browser</div>
     </div>
   </form>
@@ -95,8 +95,13 @@ function looksLikePdf(bytes) {
   return false;
 }
 
+// Returns what ESLC.parseSource takes: text for a PDF/txt, a cell grid for
+// an .xlsx (zip signature PK\x03\x04, sniffed like licenses.parse_upload).
 async function extractText(file) {
   const bytes = new Uint8Array(await file.arrayBuffer());
+  if (bytes[0] === 0x50 && bytes[1] === 0x4B && bytes[2] === 0x03 && bytes[3] === 0x04) return ESLC.readXlsxGrid(bytes);
+  if (bytes[0] === 0xD0 && bytes[1] === 0xCF && bytes[2] === 0x11 && bytes[3] === 0xE0)
+    throw new Error("That's an old-style .xls (or password-protected) Excel file - open it in Excel and Save As .xlsx, then try again.");
   if (looksLikePdf(bytes)) {
     const doc = await pdfjs.getDocument({ data: bytes }).promise;
     const lines = [];
@@ -112,8 +117,8 @@ async function handle(file) {
   try {
     currentText = await extractText(file);
     currentFile = file;
-    const probe = ESLC.parseText(currentText);
-    if (!probe.licenses.length && !probe.removed.length) throw new Error('No license lines found - is this a Licensing Wizard PDF or Checksum .txt?');
+    const probe = ESLC.parseSource(currentText);
+    if (!probe.licenses.length && !probe.removed.length) throw new Error('No license lines found - is this a Licensing Wizard PDF, Checksum .txt or a license spreadsheet?');
     for (const k of ['company', 'support_id']) if (probe[k] && !fields[k].value.trim()) fields[k].value = probe[k];
     render();
   } catch (e) { showError(e.message || String(e)); }
@@ -121,7 +126,7 @@ async function handle(file) {
 }
 
 function compute() {
-  const r = ESLC.parseText(currentText);
+  const r = ESLC.parseSource(currentText);
   if (opts.remove_sqt.checked) ESLC.removeSqt(r);
   if (opts.remove_zero.checked) ESLC.removeZeroQty(r);
   return r;

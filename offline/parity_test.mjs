@@ -24,16 +24,27 @@ const norm = r => ({ installation: r.installation, printed: r.printed, company: 
   unparsed: r.unparsed });
 
 let failed = 0;
-for (const f of ['fixtures/sample-empower370.pdf', 'fixtures/sample-checksum.txt']) {
-  const bytes = readFileSync(path.join(root, f));
-  const text = f.endsWith('.pdf') ? await pdfText(bytes) : bytes.toString('utf8');
-  const js = norm(ESLC.parseText(text));
+// The .xlsx fixtures go through the JS zip/XML reader (DecompressionStream,
+// same as the browser) and Python's xlsx_reader - the cell grids are compared
+// too, so a reader drift shows up as itself rather than as a parse diff.
+const extra = process.argv.slice(2);  // e.g. a real workbook to spot-check locally; never commit those
+for (const f of ['fixtures/sample-empower370.pdf', 'fixtures/sample-checksum.txt', 'fixtures/sample-spreadsheet.xlsx', 'fixtures/sample-spreadsheet-raw.xlsx', ...extra]) {
+  const fp = path.resolve(root, f);
+  const bytes = readFileSync(fp);
+  if (/\.xlsx$/i.test(f)) {
+    const jsGrid = JSON.stringify(await ESLC.readXlsxGrid(new Uint8Array(bytes)));
+    const pyGrid = execFileSync(path.join(root, 'venv/bin/python'), ['-c', `
+import json,sys; sys.path.insert(0,'${root}')
+from xlsx_reader import read_xlsx_grid; print(json.dumps(read_xlsx_grid(open(sys.argv[1],'rb').read()), separators=(',',':'), ensure_ascii=False))`, fp]).toString().trim();
+    if (jsGrid !== pyGrid) { failed++; console.log(`FAIL ${f}: cell grids differ`); writeFileSync('/tmp/js-grid.json', jsGrid); writeFileSync('/tmp/py-grid.json', pyGrid); continue; }
+  }
+  const js = norm(/\.xlsx$/i.test(f) ? ESLC.parseGrid(await ESLC.readXlsxGrid(new Uint8Array(bytes))) : ESLC.parseText(f.endsWith('.pdf') ? await pdfText(bytes) : bytes.toString('utf8')));
   const py = JSON.parse(execFileSync(path.join(root, 'venv/bin/python'), ['-c', `
 import json,sys; sys.path.insert(0,'${root}')
-from licenses import parse_upload; r=parse_upload(open('${path.join(root, f)}','rb').read())
+from licenses import parse_upload; r=parse_upload(open(sys.argv[1],'rb').read())
 print(json.dumps({'installation':r.installation,'printed':r.printed,'company':r.company,'support_id':r.support_id,
  'licenses':[[l.category,l.name,l.qty,l.qty_label,l.serial] for l in r.licenses],'removed':[x.reason for x in r.removed],
- 'unparsed':r.unparsed}))`]).toString());
+ 'unparsed':r.unparsed}))`, fp]).toString());
   const a = JSON.stringify(js), b = JSON.stringify(py);
   if (a === b) console.log(`OK   ${f}: ${js.licenses.length} rows match Python`);
   else { failed++; console.log(`FAIL ${f}`); writeFileSync('/tmp/js.json', JSON.stringify(js, null, 1)); writeFileSync('/tmp/py.json', JSON.stringify(py, null, 1)); }
